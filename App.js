@@ -21,14 +21,14 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-          <Stack.Screen name="Login Screen" component={LogInScreen} />
-          <Stack.Screen name="Logged in Screen" component={LoggedInScreen} />
-          <Stack.Screen name="Camera" component={CameraScreen} />
-          <Stack.Screen name="Upload" component={UploadScreen} />
+          {/* <Stack.Screen name="Login Screen" component={LogInScreen} />
+          <Stack.Screen name="Logged in Screen" component={LoggedInScreen} /> */}
+          <Stack.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }}/>
+          {/* <Stack.Screen name="Upload" component={UploadScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Profile-History" component={ProfileHistoryScreen} />
           <Stack.Screen name="PhotoCaptured" component={PhotoCapturedScreen} />
-          <Stack.Screen name="FactsView" component={FactsViewScreen} />
+          <Stack.Screen name="FactsView" component={FactsViewScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
