@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../firebase'
 import { useNavigation } from '@react-navigation/native'
@@ -15,12 +15,13 @@ const LoginScreen = () => {
 
     const navigation = useNavigation()
 
-    useEffect(() => {
+    useEffect(() => { // checks if user details are in storage and signs in if so. Also deals with navigation on sign in
 
         setIsLoading(true)
 
-        const getDetails = async () => {
+        const getDetails = async () => {   // signs in if details present in storage
             try {
+
                 const savedEmail = await SecureStore.getItemAsync("email")
                 const savedPassword = await SecureStore.getItemAsync("password")
 
@@ -31,7 +32,7 @@ const LoginScreen = () => {
                             const user = userCredentials.user;
                             console.log("logged in with ", user.email)
                             setUserDetails(user)
-                            saveDetails()
+                            saveDetails(savedEmail, savedPassword)
                             setIsLoading(false)
                         })
                         .catch((error) => {
@@ -49,7 +50,7 @@ const LoginScreen = () => {
 
         getDetails()
 
-        const unsubscribe = auth.onAuthStateChanged(user => {
+        const unsubscribe = auth.onAuthStateChanged(user => {  // deals with navigation after sign in
             if (user) {
                 navigation.replace("Logged in Screen")
             }
@@ -60,17 +61,17 @@ const LoginScreen = () => {
     }, [])
 
 
-    const saveDetails = async () => {
+    const saveDetails = async (savedEmail = email, savedPassword = password) => {  // saves user details in storage
         try {
-            await SecureStore.setItemAsync("email", email)
-            await SecureStore.setItemAsync("password", password)
+            await SecureStore.setItemAsync("email", savedEmail)
+            await SecureStore.setItemAsync("password", savedPassword)
         } catch (error) {
             alert(error)
         }
 
     }
 
-    const handleSignup = () => {
+    const handleSignup = () => {  // signs in on firebase auth and saves user details in storage
         createUserWithEmailAndPassword(auth, email, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
@@ -83,7 +84,7 @@ const LoginScreen = () => {
             })
     }
 
-    const handleLogin = () => {
+    const handleLogin = () => {  // logs in and saves details in storage
         signInWithEmailAndPassword(auth, email, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
@@ -98,12 +99,12 @@ const LoginScreen = () => {
 
     return (<View style={styles.masterContainer}>
 
-        {isLoading &&
+        {isLoading &&  // If user details saved it takes time to retrieve them, so this is displayed whilst loading
             <View style={styles.container} >
                 <Text>Loading</Text>
             </View>
         }
-        {!isLoading &&
+        {!isLoading && 
             <View
 
                 behavior="padding"
