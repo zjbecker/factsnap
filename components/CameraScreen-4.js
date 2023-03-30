@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
+import { uploadImage } from "../utils/storageUtils";
 
 // import { styles } from "./Styles";
 import { Camera } from "expo-camera";
@@ -22,6 +23,11 @@ const CameraScreen = ({ navigation }) => {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [photoUri, setPhotoUri] = useState(null); // holds photo id
+
+  // These following two states will be used to control the UI to stop multiple submissions and notify
+  // the user when the backend has responded with facts.  Currently unused, but passed to uploadImage
+  const [submitted, setSubmitted] = useState(false)
+  const [uploaded, setUploaded] = useState(false)
 
   // Asks for camera permissions on page load
 
@@ -55,10 +61,9 @@ const CameraScreen = ({ navigation }) => {
 
   const analyseBtnHandler = () => {
 
-    // BACK END TO GO HERE, UPLOAD TO BACKEND OR SEND TO API
+    setSubmitted(true)
+    uploadImage(photoUri, setUploaded)
 
-
-    console.log('BUTTON PRESSED');
   }
 
   return (
@@ -73,10 +78,10 @@ const CameraScreen = ({ navigation }) => {
                   style={{ height: "100%", width: "100%" }}
                 />
                 <View style={styles.photoButtonContainer}>
-                  <TouchableOpacity style={styles.photoButton} onPress={ discardBtnHandler }>
+                  <TouchableOpacity style={styles.photoButton} onPress={discardBtnHandler}>
                     <Text style={styles.photoButtonText} >Discard</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.photoButton} onPress={ analyseBtnHandler }>
+                  <TouchableOpacity style={styles.photoButton} onPress={analyseBtnHandler}>
                     <Text style={styles.photoButtonText}>Analyse</Text>
                   </TouchableOpacity>
 
