@@ -10,23 +10,27 @@ import ProfileHistoryScreen from "./components/ProfileHistoryScreen-7";
 import FactsViewScreen from "./components/FactsViewScreen-9";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { UserProvider } from './Context/UserContext';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
+
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Login Screen" component={LogInScreen} />
-        <Stack.Screen name="Logged in Screen" component={LoggedInScreen} />
-        <Stack.Screen name="Camera" component={CameraScreen} />
-        <Stack.Screen name="Upload" component={UploadScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Profile-History" component={ProfileHistoryScreen} />
-        <Stack.Screen name="PhotoCaptured" component={PhotoCapturedScreen} />
-        <Stack.Screen name="FactsView" component={FactsViewScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <UserProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+          <Stack.Screen name="Login Screen" component={LogInScreen} />
+          <Stack.Screen name="Logged in Screen" component={LoggedInScreen} />
+          <Stack.Screen name="Camera" component={CameraScreen} />
+          <Stack.Screen name="Upload" component={UploadScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Profile-History" component={ProfileHistoryScreen} />
+          <Stack.Screen name="PhotoCaptured" component={PhotoCapturedScreen} />
+          <Stack.Screen name="FactsView" component={FactsViewScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
   );
 }
