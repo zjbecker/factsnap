@@ -12,6 +12,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "expo": "~48.0.9",
+    "expo-camera": "^13.2.1",
     "expo-secure-store": "^12.1.1",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.18.0",
