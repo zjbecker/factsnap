@@ -2,8 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { uploadImage } from "../utils/storageUtils";
 import { UserContext } from '../Context/UserContext'
-import { getDatabase, ref, onValue, set } from "firebase/database";
-import { uploadAPIResults } from "../utils/dbUtils";
+import { getUserPreviousPosts, uploadAPIResults } from "../utils/dbUtils";
 
 
 // import { styles } from "./Styles";
@@ -25,24 +24,18 @@ import {
 
 const CameraScreen = ({ navigation}) => {
 
-  const [apiResult, setApiResults] = useState({})
+  const { userDetails, } = useContext(UserContext)  // needed here to set filepaths for firebase
 
-
-
-  // const {setApiResults} = route.params
-
-  const { userDetails, } = useContext(UserContext)
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [photoUri, setPhotoUri] = useState(null); // holds photo id
   const [prevData, setPrevData] = useState([])  // holds users previous data
+  const [apiResult, setApiResults] = useState({}) // once received, holds api facts. These get passed to fact view.
 
   // These following two states will be used to control the UI to stop multiple submissions and notify
-  // the user when the backend has responded with facts.  Currently unused, but passed to uploadImage
+  // the user when the backend has responded with facts.
   const [submitted, setSubmitted] = useState(false);
   const [uploaded, setUploaded] = useState(false);
-
-  const db = getDatabase()
 
   // Asks for camera permissions on page load
 
@@ -59,19 +52,9 @@ const CameraScreen = ({ navigation}) => {
     getCameraPermissionAsync();
   }, []);
 
-  // Load user data so it can be saved with the new post
-
+  // Gets the users previous posts and sets in state.  Used to post more data and to determine new post id.
   useEffect(() => {
-
-    const queryRef = ref(db, userDetails.uid);
-    onValue(queryRef, (snapshot) => {
-      const data = snapshot.val()
-      if (data) {
-        setPrevData(data.posts)
-      }
-
-
-    })
+    getUserPreviousPosts(userDetails, setPrevData)
   }, [])
 
   // Called on when pressed by camera button
@@ -91,33 +74,34 @@ const CameraScreen = ({ navigation}) => {
 
   const analyseBtnHandler = () => {
 
+    // This function is called by the analyse button.  It has dual functions of both submitting photo
+    // for upload and going to the next screen, depending on the state of submitted and uploaded.  Feel 
+    // free to change any of this stuff obv, its all just placeholder for now!
+
     setSubmitted(true)
 
-    if (!submitted) {
-
+    if (!submitted) { // if not submitted yet, submit photo
 
       const thePath = `${userDetails.uid}/${(prevData.length + 1)}.jpg`
       uploadImage(photoUri, userDetails, (prevData.length + 1), thePath)
 
-        .then((response) => {
+        .then((response) => {  
           setApiResults(response)
           uploadAPIResults(response.data, userDetails, prevData, thePath)
             .then(() => {
               setUploaded(true)
-
             })
-
         })
 
       setSubmitted(true);
     }
 
-    else if (submitted && !uploaded) {
+    else if (submitted && !uploaded) {  // if submitted and processing, do not allow any repeat 
       return
     }
 
-    else if (submitted && uploaded) {
-      navigation.navigate("FactsView", {
+    else if (submitted && uploaded) {  // if submitted and upladed, allow usee to view facts
+      navigation.navigate("FactsView", {  // pass facts to facts view
         paramKey: {imgPath: `${userDetails.uid}/${prevData.length}.jpg`, data: apiResult.data}})
     }
 

@@ -7,15 +7,18 @@ import { downloadImageUri } from "../utils/storageUtils";
 
 const FactsViewScreen = ({ navigation, route }) => {
 
+  /* At the moment, this component has no front end, but the all the data from backend is saved in state -
+  postData contains an array with objects, each object is a result from the API.  picData contains the picture
+  url from firebase which can just be stuck straight in an Image tag and should work (once it's loaded) */
+
   const { userDetails, } = useContext(UserContext)
 
   const [postData, setPostData] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const [picData, setPicData] = useState([])
 
-  useEffect(() => {  // retreives posts data from realtime db
+  useEffect(() => {  // processes post data passed as prop via route into state
     setIsLoading(true)
-
 
     const responseFromProp = route.params.paramKey
     const filteredData = responseFromProp.data.filter((entry) => !entry.hasOwnProperty("error"))  // removes error posts
@@ -23,8 +26,6 @@ const FactsViewScreen = ({ navigation, route }) => {
 
     setPostData({ imgPath: responseFromProp.imgPath, data: filteredData })
   }, [])
-
-
 
   useEffect(() => {  // uses the posts data to retreive photo uris from firebase storage
 
