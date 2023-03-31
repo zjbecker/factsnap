@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import HomeScreen from "./components/HomeScreen-1";
 import LogInScreen from "./components/LogInScreen-2";
 import PhotoCapturedScreen from "./components/PhotoCapturedScreen-8";
@@ -14,7 +15,10 @@ import { UserProvider } from "./Context/UserContext";
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
+
+
   return (
     <UserProvider>
       <NavigationContainer>
@@ -25,7 +29,9 @@ export default function App() {
           <Stack.Screen
             name="Camera"
             component={CameraScreen}
+
             options={{ headerShown: false }}
+            
           />
           <Stack.Screen name="Upload" component={UploadScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
@@ -34,7 +40,9 @@ export default function App() {
             component={ProfileHistoryScreen}
           />
           <Stack.Screen name="PhotoCaptured" component={PhotoCapturedScreen} />
-          <Stack.Screen name="FactsView" component={FactsViewScreen} />
+          <Stack.Screen name="FactsView" component={FactsViewScreen}
+
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
