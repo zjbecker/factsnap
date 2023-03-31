@@ -1,8 +1,9 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
+import { requestInfoAPI } from "./axios"
 
 
-export const uploadImage = async (image, setUploaded) => {
+export const uploadImage = async (image, userDetails = {uid: "test"}, postNo, path) => {
 
 
     /* This function uploads images to firebase storage. For now, the path (storage ref) is a placeholder -
@@ -36,11 +37,38 @@ export const uploadImage = async (image, setUploaded) => {
     // This last bit is where the actual uploading is performed
 
     const storage = getStorage()
-    const storageRef = ref(storage, `placeholder/${Math.random()}.jpg`)
+    const storageRef = ref(storage, `${userDetails.uid}/${postNo}.jpg`)
 
-    uploadBytes(storageRef, blob).then((snapshot) => {
-        setUploaded(true)
-        console.log("uploaded")
+    return uploadBytes(storageRef, blob).then((snapshot) => {
+
+
+        return downloadImageUri(path)
+            .then((uri) => {
+                // return requestInfoAPI(uri)
+                return {   // test data in place of api
+                    data: [
+                        {
+                            error: "404: Wiki"
+                        },
+                        {
+                            landmark: {
+                                extract: "The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.",
+                                img_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/320px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
+                                title: "FAKE DATA LOL"
+                            }
+                        },
+                        {
+                            landmark: {
+                                extract: "This place is quite fun",
+                                img_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/320px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
+                                title: "Legoland"
+                            }
+                        }
+                    ]
+                }
+
+            })
+
     })
 
 }

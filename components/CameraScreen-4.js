@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { uploadImage } from "../utils/storageUtils";
+import { UserContext } from '../Context/UserContext'
+import { getDatabase, ref, onValue, set } from "firebase/database";
+import { uploadAPIResults } from "../utils/dbUtils";
+
 
 // import { styles } from "./Styles";
 import { Camera } from "expo-camera";
@@ -19,15 +23,26 @@ import {
 // ***** BLACK MARGIN ON PHOTO WHEN PHOTO DISPLAYED TO BE REVIEWED *****
 // ***** SCREEN SIZE CHANGE ON CAMERA ----> IMAGE *****
 
-const CameraScreen = ({ navigation }) => {
+const CameraScreen = ({ navigation}) => {
+
+  const [apiResult, setApiResults] = useState({})
+
+
+
+  // const {setApiResults} = route.params
+
+  const { userDetails, } = useContext(UserContext)
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [photoUri, setPhotoUri] = useState(null); // holds photo id
+  const [prevData, setPrevData] = useState([])  // holds users previous data
 
   // These following two states will be used to control the UI to stop multiple submissions and notify
   // the user when the backend has responded with facts.  Currently unused, but passed to uploadImage
   const [submitted, setSubmitted] = useState(false);
   const [uploaded, setUploaded] = useState(false);
+
+  const db = getDatabase()
 
   // Asks for camera permissions on page load
 
@@ -43,6 +58,21 @@ const CameraScreen = ({ navigation }) => {
     };
     getCameraPermissionAsync();
   }, []);
+
+  // Load user data so it can be saved with the new post
+
+  useEffect(() => {
+
+    const queryRef = ref(db, userDetails.uid);
+    onValue(queryRef, (snapshot) => {
+      const data = snapshot.val()
+      if (data) {
+        setPrevData(data.posts)
+      }
+
+
+    })
+  }, [])
 
   // Called on when pressed by camera button
 
@@ -60,8 +90,37 @@ const CameraScreen = ({ navigation }) => {
   };
 
   const analyseBtnHandler = () => {
-    setSubmitted(true);
-    uploadImage(photoUri, setUploaded);
+
+    setSubmitted(true)
+
+    if (!submitted) {
+
+
+      const thePath = `${userDetails.uid}/${(prevData.length + 1)}.jpg`
+      uploadImage(photoUri, userDetails, (prevData.length + 1), thePath)
+
+        .then((response) => {
+          setApiResults(response)
+          uploadAPIResults(response.data, userDetails, prevData, thePath)
+            .then(() => {
+              setUploaded(true)
+
+            })
+
+        })
+
+      setSubmitted(true);
+    }
+
+    else if (submitted && !uploaded) {
+      return
+    }
+
+    else if (submitted && uploaded) {
+      navigation.navigate("FactsView", {
+        paramKey: {imgPath: `${userDetails.uid}/${prevData.length}.jpg`, data: apiResult.data}})
+    }
+
   };
 
   return (
@@ -86,12 +145,9 @@ const CameraScreen = ({ navigation }) => {
                     style={styles.photoButton}
                     onPress={analyseBtnHandler}
                   >
-                    <Text style={styles.photoButtonText}>Analyse</Text>
+                    <Text style={styles.photoButtonText}>{(!submitted && !uploaded) ? "Analyse" : (submitted && !uploaded) ? "loading..." : (submitted && uploaded) ? "Get Facts Now" : ""}</Text>
                   </TouchableOpacity>
-                  <Button
-                    title="Get Facts Now!"
-                    onPress={() => navigation.navigate("FactsView")}
-                  ></Button>
+
                 </View>
               </>
             ) : (
