@@ -11,10 +11,10 @@ import {
   View,
   Image,
   Dimensions,
+  Button,
 } from "react-native";
 
-
-// TO DO - 
+// TO DO -
 
 // ***** BLACK MARGIN ON PHOTO WHEN PHOTO DISPLAYED TO BE REVIEWED *****
 // ***** SCREEN SIZE CHANGE ON CAMERA ----> IMAGE *****
@@ -26,8 +26,8 @@ const CameraScreen = ({ navigation }) => {
 
   // These following two states will be used to control the UI to stop multiple submissions and notify
   // the user when the backend has responded with facts.  Currently unused, but passed to uploadImage
-  const [submitted, setSubmitted] = useState(false)
-  const [uploaded, setUploaded] = useState(false)
+  const [submitted, setSubmitted] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
 
   // Asks for camera permissions on page load
 
@@ -57,14 +57,12 @@ const CameraScreen = ({ navigation }) => {
 
   const discardBtnHandler = () => {
     setPhotoUri(null);
-  }
+  };
 
   const analyseBtnHandler = () => {
-
-    setSubmitted(true)
-    uploadImage(photoUri, setUploaded)
-
-  }
+    setSubmitted(true);
+    uploadImage(photoUri, setUploaded);
+  };
 
   return (
     <View style={styles.container}>
@@ -78,13 +76,22 @@ const CameraScreen = ({ navigation }) => {
                   style={{ height: "100%", width: "100%" }}
                 />
                 <View style={styles.photoButtonContainer}>
-                  <TouchableOpacity style={styles.photoButton} onPress={discardBtnHandler}>
-                    <Text style={styles.photoButtonText} >Discard</Text>
+                  <TouchableOpacity
+                    style={styles.photoButton}
+                    onPress={discardBtnHandler}
+                  >
+                    <Text style={styles.photoButtonText}>Discard</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.photoButton} onPress={analyseBtnHandler}>
+                  <TouchableOpacity
+                    style={styles.photoButton}
+                    onPress={analyseBtnHandler}
+                  >
                     <Text style={styles.photoButtonText}>Analyse</Text>
                   </TouchableOpacity>
-
+                  <Button
+                    title="Get Facts Now!"
+                    onPress={() => navigation.navigate("FactsView")}
+                  ></Button>
                 </View>
               </>
             ) : (
@@ -143,9 +150,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
 
-
     backgroundColor: "black",
-
   },
   cameraBtnContainer: {
     position: "absolute",
