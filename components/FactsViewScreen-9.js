@@ -17,7 +17,7 @@ const FactsViewScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [picData, setPicData] = useState([])
 
-  useEffect(() => {  // retreives posts data from realtime db
+  useEffect(() => {  // processes post data passed as prop via route into state
     setIsLoading(true)
 
     const responseFromProp = route.params.paramKey
