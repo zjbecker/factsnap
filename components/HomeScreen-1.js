@@ -10,6 +10,10 @@ const HomeScreen = ({ navigation }) => {
         title="Camera View"
         onPress={() => navigation.navigate("Camera")}
       ></Button>
+            <Button
+        title="PHOTOS VIEW"
+        onPress={() => navigation.navigate("Upload")}
+      ></Button>
       <StatusBar style="auto" />
     </View>
   );
