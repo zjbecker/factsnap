@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, PixelRatio } from "react-native";
-import { styles } from "./Styles";
+import { StyleSheet, View, Text, PixelRatio, Image, TouchableOpacity, FlatList, ScrollView } from "react-native";
+
 
 import { useState, useEffect } from "react";
 
@@ -16,14 +16,17 @@ const FactsViewScreen = ({ navigation, route }) => {
   const [picData, setPicData] = useState("") // once loaded is a uri of the photo, ready for use in image tag
   const [isLoading, setIsLoading] = useState(true) // may be unnecessary as there is no backend stuff going on on in this component, all data is being passed in from route. needs testing when app is more built
 
+
+  console.log(postData, "<<<< postdata")
   useEffect(() => {  // processes post data passed as prop via route into state, sets pic data and post data
     setIsLoading(true)
 
     const responseFromProp = route.params.paramKey  // route.params.paramkey is received as a prop, contains the post object being viewed
 
-    const filteredResults = []
+    let filteredResults = []
     if (responseFromProp.hasOwnProperty("results")) {
-      const filteredResults = responseFromProp.results.filter((entry) => !entry.hasOwnProperty("error"))  // removes error posts
+      console.log("beeep")
+      filteredResults = responseFromProp.results.filter((entry) => !entry.hasOwnProperty("error"))  // removes error posts
     }
 
     // these promises are just to ensure that setting state for posts and pictures happens before loading is set to false
@@ -42,10 +45,34 @@ const FactsViewScreen = ({ navigation, route }) => {
 
 
       {!isLoading &&
-        <>
-          <Text>Stuff goes here</Text>
-          <StatusBar style="auto" />
-        </>
+
+
+        <View style={styles.container}>
+            
+            <FlatList
+            ListHeaderComponent={
+              <>
+<Image source={{ uri: `${picData}` }} style={{ width: 300, height: 300 }} />
+              </>}
+              keyExtractor={(item, index) => index}
+              data={postData}
+              renderItem={({ item, index }) => (
+                <View >
+                  <Text style={styles.title}>{item.landmark.title}</Text>
+                  <Text style={styles.body}>{item.landmark.extract}</Text>
+
+
+                </View>
+
+              )} />
+            <View style={styles.footer}>
+              <TouchableOpacity style={styles.button}>
+                <Text>Go Home</Text>
+              </TouchableOpacity>
+            </View>
+    
+        </View>
+
 
       }
 
@@ -54,3 +81,29 @@ const FactsViewScreen = ({ navigation, route }) => {
 };
 
 export default FactsViewScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    marginTop: 20,
+    textAlign: "center"
+  },
+  body: {
+    padding: "5%",
+    margin: "5%",
+    backgroundColor: "grey",
+    borderRadius: 5
+  },
+  button: {
+    bottom: 30,
+    backgroundColor: "red",
+    padding: 20,
+    borderRadius: 10
+  }
+
+});
