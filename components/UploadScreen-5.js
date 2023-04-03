@@ -2,19 +2,20 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { UserContext } from '../Context/UserContext'
-import { uploadImage } from '../utils/storageUtils';
-import { getUserPreviousPosts, uploadAPIResults } from '../utils/dbUtils';
+import { uploadImageAndRequestAPI } from '../utils/storageUtils';
+import { uploadAPIResults, getUserPostsData } from '../utils/dbUtils';
 import * as ImagePicker from "expo-image-picker"
 
 
 function UploadScreen({ navigation }) {
 
   // User context is needed here to set the directory name for firebase
-  const {userDetails} = useContext(UserContext)
+  const { userDetails } = useContext(UserContext)
 
   const [prevData, setPrevData] = useState([])  // used to set filename ids and to save new entries
   const [image, setImage] = useState(null)  // once picked the image local uri is stored here
   const [apiResult, setApiResults] = useState({})   // this is passed to the results page once set
+  const [imageStorageUri, setImageStorageUri] = useState(null)
 
   // these two states are used to control the ui and stop the user submitting multiple times
   const [submitted, setSubmitted] = useState(false)
@@ -22,7 +23,12 @@ function UploadScreen({ navigation }) {
 
   // Gets the users previous posts and sets in state.  Used to post more data and to determine new post id.
   useEffect(() => {
-    getUserPreviousPosts(userDetails, setPrevData)
+    getUserPostsData(userDetails)
+      .then((posts) => {
+        if (posts) {
+          setPrevData(posts)
+        }
+      })
   }, [])
 
 
@@ -51,18 +57,26 @@ function UploadScreen({ navigation }) {
 
 
     const thePath = `${userDetails.uid}/${(prevData.length + 1)}.jpg`
-    uploadImage(image, userDetails, (prevData.length + 1), thePath)
+    uploadImageAndRequestAPI(image, userDetails, (prevData.length + 1), thePath)
 
       .then((response) => {
         setApiResults(response)
         uploadAPIResults(response.data, userDetails, prevData, thePath)
-          .then(() => {
+          .then((imgUri) => {
+            setImageStorageUri(imgUri)
             setUploaded(true)
 
           })
 
       })
 
+
+  }
+
+  function viewResults() {
+    navigation.navigate("FactsView", {
+      paramKey: { imgPath: `${userDetails.uid}/${prevData.length}.jpg`, results: apiResult.data, imgUri: imageStorageUri }
+    })
 
   }
 
@@ -101,8 +115,8 @@ function UploadScreen({ navigation }) {
           <TouchableOpacity
             onPress={() => {
               if (uploaded) {
-                navigation.navigate("FactsView", {
-                  paramKey: {imgPath: `${userDetails.uid}/${prevData.length}.jpg`, data: apiResult.data}})
+                viewResults()
+
               }
             }}
             style={styles.button}>

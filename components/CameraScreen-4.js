@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { uploadImage } from "../utils/storageUtils";
+import { uploadImageAndRequestAPI } from "../utils/storageUtils";
 import { UserContext } from '../Context/UserContext'
-import { getUserPreviousPosts, uploadAPIResults } from "../utils/dbUtils";
+import { getUserPostsData, uploadAPIResults } from "../utils/dbUtils";
 
 
 // import { styles } from "./Styles";
@@ -31,7 +31,7 @@ const CameraScreen = ({ navigation}) => {
   const [photoUri, setPhotoUri] = useState(null); // holds photo id
   const [prevData, setPrevData] = useState([])  // holds users previous data
   const [apiResult, setApiResults] = useState({}) // once received, holds api facts. These get passed to fact view.
-
+  const [imageStorageUri, setImageStorageUri] = useState(null)
   // These following two states will be used to control the UI to stop multiple submissions and notify
   // the user when the backend has responded with facts.
   const [submitted, setSubmitted] = useState(false);
@@ -54,7 +54,12 @@ const CameraScreen = ({ navigation}) => {
 
   // Gets the users previous posts and sets in state.  Used to post more data and to determine new post id.
   useEffect(() => {
-    getUserPreviousPosts(userDetails, setPrevData)
+    getUserPostsData(userDetails)
+    .then((posts) => {
+      if (posts) {  
+        setPrevData(posts)
+      }
+    })
   }, [])
 
   // Called on when pressed by camera button
@@ -75,22 +80,25 @@ const CameraScreen = ({ navigation}) => {
   const analyseBtnHandler = () => {
 
     // This function is called by the analyse button.  It has dual functions of both submitting photo
-    // for upload and going to the next screen, depending on the state of submitted and uploaded.  Feel 
-    // free to change any of this stuff obv, its all just placeholder for now!
+    // for upload and going to the next screen, depending on the state of submitted and uploaded. 
+    // This will likely need reshuffling as we finalise the navigation and styling for this page as
+    // the analyse button behaviour is just placeholder at the moment
 
     setSubmitted(true)
 
     if (!submitted) { // if not submitted yet, submit photo
 
       const thePath = `${userDetails.uid}/${(prevData.length + 1)}.jpg`
-      uploadImage(photoUri, userDetails, (prevData.length + 1), thePath)
+      uploadImageAndRequestAPI(photoUri, userDetails, (prevData.length + 1), thePath)
 
         .then((response) => {  
           setApiResults(response)
           uploadAPIResults(response.data, userDetails, prevData, thePath)
-            .then(() => {
-              setUploaded(true)
-            })
+          .then((imgUri) => {
+            setImageStorageUri(imgUri)
+            setUploaded(true)
+
+          })
         })
 
       setSubmitted(true);
@@ -102,7 +110,7 @@ const CameraScreen = ({ navigation}) => {
 
     else if (submitted && uploaded) {  // if submitted and upladed, allow usee to view facts
       navigation.navigate("FactsView", {  // pass facts to facts view
-        paramKey: {imgPath: `${userDetails.uid}/${prevData.length}.jpg`, data: apiResult.data}})
+        paramKey: {imgPath: `${userDetails.uid}/${prevData.length}.jpg`, results: apiResult.data, imgUri: imageStorageUri}})
     }
 
   };

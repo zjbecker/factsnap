@@ -1,9 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, PixelRatio } from "react-native";
 import { styles } from "./Styles";
-import { UserContext } from "../Context/UserContext";
-import { useContext, useState, useEffect } from "react";
-import { downloadImageUri } from "../utils/storageUtils";
+
+import { useState, useEffect } from "react";
 
 const FactsViewScreen = ({ navigation, route }) => {
 
@@ -11,48 +10,37 @@ const FactsViewScreen = ({ navigation, route }) => {
   postData contains an array with objects, each object is a result from the API.  picData contains the picture
   url from firebase which can just be stuck straight in an Image tag and should work (once it's loaded) */
 
-  const { userDetails, } = useContext(UserContext)
+  const [postData, setPostData] = useState([]) // once loaded is an array with api result objects (possible landmarks)
+  const [picData, setPicData] = useState("") // once loaded is a uri of the photo, ready for use in image tag
+  const [isLoading, setIsLoading] = useState(true) // may be unnecessary as there is no backend stuff going on on in this component, all data is being passed in from route. needs testing when app is more built
 
-  const [postData, setPostData] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
-  const [picData, setPicData] = useState([])
-
-  useEffect(() => {  // processes post data passed as prop via route into state
+  useEffect(() => {  // processes post data passed as prop via route into state, sets pic data and post data
     setIsLoading(true)
 
-    const responseFromProp = route.params.paramKey
-    const filteredData = responseFromProp.data.filter((entry) => !entry.hasOwnProperty("error"))  // removes error posts
+    const responseFromProp = route.params.paramKey  // route.params.paramkey is received as a prop, contains the post object being viewed
+    const filteredResults = responseFromProp.results.filter((entry) => !entry.hasOwnProperty("error"))  // removes error posts
 
+    // these promises are just to ensure that setting state for posts and pictures happens before loading is set to false
+    const promises = [Promise.resolve(setPicData(responseFromProp.imgUri)), Promise.resolve(setPostData(filteredResults))]
+    Promise.all(promises)
+      .then(() => {
+        setIsLoading(false)
+      })
 
-    setPostData({ imgPath: responseFromProp.imgPath, data: filteredData })
   }, [])
 
-  useEffect(() => {  // uses the posts data to retreive photo uris from firebase storage
-
-    if (Object.keys(postData).length > 0) {
-      const promise = Promise.resolve(downloadImageUri(postData.imgPath))
-      promise.then((uri) => {
-        setPicData(uri)
-        setIsLoading(false)
-
-      }).catch((error) => {
-        console.log(error)
-      })
-    }
-  }, [postData])
-
-  return (
+  return (  // placeholder stuff
     <View style={styles.container}>
-      {isLoading && 
-      <Text>Loading</Text>}
+      {isLoading &&
+        <Text>Loading</Text>}
 
 
       {!isLoading &&
-      <>
-      <Text>Stuff goes here</Text>
-      <StatusBar style="auto" />
-      </>
-      
+        <>
+          <Text>Stuff goes here</Text>
+          <StatusBar style="auto" />
+        </>
+
       }
 
     </View>
