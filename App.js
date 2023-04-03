@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import HomeScreen from "./components/HomeScreen-1";
-import LogInScreen from "./components/LogInScreen-2";
+
 import PhotoCapturedScreen from "./components/PhotoCapturedScreen-8";
 import ProfileScreen from "./components/ProfileScreen-6";
 import LoggedInScreen from "./components/LoggedInScreen-3";
@@ -23,9 +23,11 @@ export default function App() {
     <UserProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Login Screen" component={LogInScreen} />
-          <Stack.Screen name="Logged in Screen" component={LoggedInScreen} />
+          <Stack.Screen name="Home" component={HomeScreen}
+          options={{ headerShown: false }} />
+
+          <Stack.Screen name="Logged in Screen" component={LoggedInScreen} 
+          options={{ headerShown: false }}/>
           <Stack.Screen
             name="Camera"
             component={CameraScreen}
@@ -33,15 +35,17 @@ export default function App() {
             options={{ headerShown: false }}
             
           />
-          <Stack.Screen name="Upload" component={UploadScreen} />
+          <Stack.Screen name="Upload" component={UploadScreen} 
+          options={{ headerShown: false }}/>
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen
             name="Profile-History"
             component={ProfileHistoryScreen}
+            options={{ headerShown: false }}
           />
           <Stack.Screen name="PhotoCaptured" component={PhotoCapturedScreen} />
           <Stack.Screen name="FactsView" component={FactsViewScreen}
-
+          options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>

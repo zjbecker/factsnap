@@ -1,6 +1,6 @@
 
 import React, { useState, useContext, useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground } from 'react-native'
 import { UserContext } from '../Context/UserContext'
 import { uploadImageAndRequestAPI } from '../utils/storageUtils';
 import { uploadAPIResults, getUserPostsData } from '../utils/dbUtils';
@@ -80,94 +80,159 @@ function UploadScreen({ navigation }) {
 
   }
 
+  const goHome = () => {
+    navigation.replace("Home");
+  };
+
   return (
-    <View
-      style={styles.container}
-      behavior="padding">
-
-      {!image &&  // Displayed before the user has picked an image
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              selectPhoto(setImage)
-            }}
-            style={styles.button}>
-            <Text style={styles.button}>Add Pic</Text>
-          </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.card}>
+      <ImageBackground
+          source={require("../assets/BGvariant112.png")}
+          style={styles.cardBackground}
+        >
+      <Text style={styles.logoText}>FactSnap</Text>
+        <View style={styles.imageContainer}>
+          {image ? (
+            <Image
+              source={{ uri: image }}
+              style={{ height: "100%", width: "100%" }}
+            />
+          ) : (
+            <Text style={styles.imagePlaceholder}>Select an image to display here</Text>
+          )}
         </View>
-      }
-
-
-      {(image && !uploaded && !submitted) &&  // displays once an image is picked but before submission
+  
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={writeUserData}
-            style={styles.button}>
-            <Text style={styles.button}>Submit</Text>
-          </TouchableOpacity>
-
+          {!image && (
+            <TouchableOpacity
+              onPress={() => {
+                selectPhoto(setImage);
+              }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Add Pic</Text>
+            </TouchableOpacity>
+          )}
+  
+          {image && !uploaded && !submitted && (
+            <TouchableOpacity
+              onPress={writeUserData}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+          )}
+  
+          {image && submitted && (
+            <TouchableOpacity
+              onPress={() => {
+                if (uploaded) {
+                  viewResults();
+                }
+              }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>{uploaded ? "Go" : "loading..."}</Text>
+            </TouchableOpacity>
+          )}
+  
 
         </View>
-      }
-
-      {(image && submitted) &&  // displays once the image has been submitted
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              if (uploaded) {
-                viewResults()
-
-              }
-            }}
-            style={styles.button}>
-            <Text style={styles.button}>{(uploaded) ? "Go" : "loading..."}</Text>
-          </TouchableOpacity>
-
-
-        </View>
-      }
-
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.replace("Home")
-          }}
-          style={styles.button}>
-          <Text style={styles.button}>BACK</Text>
-        </TouchableOpacity>
-
-
+      </ ImageBackground>
       </View>
-
+      <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
+        <Text style={styles.homeBtnText}>Home</Text>
+      </TouchableOpacity>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
     justifyContent: "center",
-    alignItems: "center"
   },
-  buttonContainer: {
-    width: "60%",
+  logoText: {
+    fontSize: 60,
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 20,
+    textAlign: "center",
+    color: "black",
+  },
+  card: {
+    width: "90%",
+    height: "90%",
+    alignSelf: "center",
+
+    borderRadius: 10,
+    overflow: "hidden",
+    shadowColor: "#000",
+    marginBottom: 15,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    backgroundColor: "#FFF",
+  },
+  cardBackground: {
+    flex: 1,
+    resizeMode: "cover",
+    alignItems: 'center',
+  },
+  imageContainer: {
+    width: "90%",
+    height: "60%",
+    backgroundColor: "rgba(255, 255, 255, 0.4)", 
+    
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    overflow: "hidden",
 
   },
+  imagePlaceholder: {
+    fontSize: 18,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    alignItems: "center",
+    padding: 20,
+  },
   button: {
-    backgroundColor: "aquamarine",
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center"
+    backgroundColor: "#BADA55",
+    width: '100%',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    marginTop: 40,
+    borderRadius: 5,
+    margin: 5,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "#FFFFFF",
+    textAlign: "center",
+  },
+  homeBtn: {
+    alignSelf: "flex-start",
 
-  }
-})
+    backgroundColor: "#BADA55",
+    padding: 10,
+    marginLeft: 20,
 
-
+    borderRadius: 5,
+  },
+});
 
 
 export default UploadScreen
