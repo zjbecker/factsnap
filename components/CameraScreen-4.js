@@ -38,7 +38,6 @@ const CameraScreen = ({ navigation}) => {
   const [uploaded, setUploaded] = useState(false);
 
   // Asks for camera permissions on page load
-
   useEffect(() => {
     const getCameraPermissionAsync = async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
