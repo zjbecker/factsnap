@@ -18,12 +18,9 @@ const FactsViewScreen = ({ navigation, route }) => {
 
   useEffect(() => {  // processes post data passed as prop via route into state, sets pic data and post data
     setIsLoading(true)
-
+    
     const responseFromProp = route.params.paramKey  // route.params.paramkey is received as a prop, contains the post object being viewed
-    const filteredResults = []
-    if (responseFromProp.results) {
-      filteredResults = responseFromProp.results.filter((entry) => !entry.hasOwnProperty("error"))  // removes error posts
-    }
+    const filteredResults = responseFromProp.results.filter((entry) => !entry.hasOwnProperty("error"))  // removes error posts
 
     // these promises are just to ensure that setting state for posts and pictures happens before loading is set to false
     const promises = [Promise.resolve(setPicData(responseFromProp.imgUri)), Promise.resolve(setPostData(filteredResults))]
