@@ -1,84 +1,208 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, FlatList, Image, TouchableOpacity } from "react-native";
-import { styles } from "./Styles";
-import { useContext, useState, useEffect } from "react"
+import React, { useContext, useState, useEffect } from "react";
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  Animated,
+  ImageBackground
+} from "react-native";
+
 import { UserContext } from "../Context/UserContext";
 import { getUserPostsData } from "../utils/dbUtils";
 
+
+const { width } = Dimensions.get("window");
+const ITEM_WIDTH = width * 0.7;
+const ITEM_HEIGHT = ITEM_WIDTH * 1.47;
+
 const ProfileHistoryScreen = ({ navigation }) => {
+  const { userDetails } = useContext(UserContext);
 
-  const { userDetails } = useContext(UserContext)
+  const [postsData, setPostsData] = useState([]);
+  const [picsData, setPicsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [postsData, setPostsData] = useState([])  // once loaded is an array of post objects
-  const [picsData, setPicsData] = useState([])  // once loaded is an array of image uri strings, one per post
-  const [isLoading, setIsLoading] = useState(true) // used to prevent data displaying before it has been retreived from firebase
+  useEffect(() => {
+    setIsLoading(true);
+    let pictureUris = [];
 
-  useEffect(() => {  // retreives posts data from realtime db and sets posts and pics data
-
-    setIsLoading(true)
-    let pictureUris = []
-
-    getUserPostsData(userDetails)  // retreives the user data
+    getUserPostsData(userDetails)
       .then((data) => {
+        const processedApiResults = data.map((entry) => {
+          return entry[Object.keys(entry)];
+        });
+        processedApiResults.forEach((post) => {
+          pictureUris.push(post.imgUri);
+        });
 
-        const processedApiResults = data.map((entry) => {  // this bit just extracts the actual result object
-          return entry[Object.keys(entry)]  
-        })
-        processedApiResults.forEach((post) => {  // extracts the uris from those result objects
-          pictureUris.push(post.imgUri)
-        })
-
-        // these promises are just to ensure that setting state for posts and pictures happens before loading is set to false
-
-        const promises = [Promise.resolve(setPostsData(processedApiResults)), Promise.resolve(setPicsData(pictureUris))]  
-        Promise.all(promises)
-        .then(() => {
-          setIsLoading(false)
-        })
+        const promises = [
+          Promise.resolve(setPostsData(processedApiResults)),
+          Promise.resolve(setPicsData(pictureUris)),
+        ];
+        Promise.all(promises).then(() => {
+          setIsLoading(false);
+        });
       })
-
       .catch((error) => {
-        console.log(error, "<<<< ERROR")
-      })
-  }, [])
+        console.log(error, "<<<< ERROR");
+      });
+  }, []);
 
-  function viewIndividualResult(postIndex) {  // navigates to view the result
-    navigation.navigate("FactsView", {  // pass facts to facts view
-      paramKey: postsData[postIndex]})
-
+  function viewIndividualResult(postIndex) {
+    navigation.navigate("FactsView", {
+      paramKey: postsData[postIndex],
+    });
   }
 
+  const goHome = () => {
+    navigation.replace("Home");
+  };
 
-  return (  // placeholder stuff
+  const scrollX = React.useRef(new Animated.Value(0)).current;
+
+  return (
     <View style={styles.container}>
-      {isLoading &&
-        <Text>Loading</Text>
-      }
-      {!isLoading &&
-        <>
-          <FlatList
-            keyExtractor={(item, index) => index} 
-            data={postsData}
-            renderItem={({ item, index }) => (
-              <View >
+      <ImageBackground
+        source={require('../assets/BGvariant130.png')}
+        style={styles.background}
+      >
 
-                <Image  source={{ uri: `${picsData[index]}` }} style={{ width: 200, height: 200 }} />
-                <TouchableOpacity
-                    onPress={() => {
-                      viewIndividualResult(index)
+      {isLoading && <Text>Loading</Text>}
+      {!isLoading && (
+        <>
+          <StatusBar hidden />
+          <Animated.FlatList
+            data={postsData}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              { useNativeDriver: true }
+            )}
+            renderItem={({ item, index }) => {
+              const inputRange = [
+                (index - 1) * width,
+                index * width,
+                (index + 1) * width,
+              ];
+              const translateX = scrollX.interpolate({
+                inputRange,
+                outputRange: [-width * 0.7, 0, width * 0.7],
+              });
+
+              return (
+                <View
+                  style={{
+                    width,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 18,
+                  }}
+                >
+                  <View
+                    style={{
+                      borderRadius: 18,
+                      shadowColor: "#000",
+                      shadowOpacity: 0.5,
+                      shadowRadius: 30,
+                      shadowOffset: {
+                        width: 0,
+                        height: 0,
+                      },
+                      borderRadius: 18,
+                      padding: 12,
+                      backgroundColor: "white",
                     }}
                   >
-                    <Text>View</Text>
-                  </TouchableOpacity>
-              </View>
+                    <View
+                      style={{
+                        width: ITEM_WIDTH,
+                        height: ITEM_HEIGHT,
+                        overflow: "hidden",
+                        alignItems: "center",
+                        borderRadius: 14,
+                      }}
+                    >
+                      <Animated.Image
+                        source={{ uri: picsData[index] }}
+                        style={{
+                          width: ITEM_WIDTH * 1.4,
+                          height: ITEM_HEIGHT,
+                          resizeMode: "cover",
+                          transform: [
+                            {
+                              translateX,
+                            },
+                          ],
+                        }}
+                      />
+                    </View>
 
-            )} />
-          <StatusBar style="auto" />
+                  </View>
+                </View>
+              );
+            }}
+          />
         </>
-      }
-
+      )}
+      <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
+        <Text style={styles.homeBtnText}>Home</Text>
+      </TouchableOpacity>
+      </ImageBackground>
     </View>
+
   );
 };
 
 export default ProfileHistoryScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  itemContainer: {
+    width: ITEM_WIDTH,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 18,
+    margin: 8,
+  },
+  imageContainer: {
+    width: ITEM_WIDTH,
+    height: ITEM_HEIGHT,
+    overflow: "hidden",
+    alignItems: "center",
+    borderRadius: 14,
+  },
+  card: {
+    borderRadius: 18,
+    shadowColor: "#000",
+    shadowOpacity: 0.5,
+    shadowRadius: 30,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    borderRadius: 18,
+    padding: 12,
+    backgroundColor: "white",
+  },
+  homeBtn: {
+    alignSelf: "flex-start",
+
+    backgroundColor: "#BADA55",
+    padding: 10,
+    marginLeft: 20,
+    marginBottom: 20,
+    borderRadius: 5,
+  },
+});

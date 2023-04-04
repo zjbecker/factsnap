@@ -1,5 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, PixelRatio, Image, TouchableOpacity, FlatList, ScrollView } from "react-native";
+import { StyleSheet, View, Text, PixelRatio, Image, TouchableOpacity, FlatList, ScrollView, ImageBackground } from "react-native";
+
+// Kyle 
+// Fonts not very readable, need some tweeking with colors and fonts, potentially a opacity on them. Might make it more readable with different background
+
+
+
+
+
 
 
 import { useState, useEffect } from "react";
@@ -38,44 +46,54 @@ const FactsViewScreen = ({ navigation, route }) => {
 
   }, [])
 
-  return (  // placeholder stuff
+  const goHome = () => {
+    navigation.replace("Home");
+  }
+  
+
+  return (
     <View style={styles.container}>
-      {isLoading &&
-        <Text>Loading</Text>}
-
-
-      {!isLoading &&
-
-
-        <View style={styles.container}>
-            
-            <FlatList
-            ListHeaderComponent={
-              <>
-<Image source={{ uri: `${picData}` }} style={{ width: 300, height: 300 }} />
-              </>}
-              keyExtractor={(item, index) => index}
-              data={postData}
-              renderItem={({ item, index }) => (
-                <View >
-                  <Text style={styles.title}>{item.landmark.title}</Text>
-                  <Text style={styles.body}>{item.landmark.extract}</Text>
-
-
+      <View style={styles.card}>
+        <ImageBackground
+          source={require('../assets/BGvariant130.png')}
+          style={styles.cardBackground}
+        >
+          <View style={styles.cardContent}>
+            {isLoading && <Text>Loading</Text>}
+            {!isLoading && (
+              <View style={styles.container}>
+                <FlatList
+                  ListHeaderComponent={
+                    <>
+                      <View style={styles.imageWrapper}>
+                        <Image
+                          source={{ uri: `${picData}` }}
+                          style={styles.image}
+                        />
+                      </View>
+                    </>
+                  }
+                  keyExtractor={(item, index) => index}
+                  data={postData}
+                  renderItem={({ item, index }) => (
+                    <View>
+                      <Text style={styles.title}>{item.landmark.title}</Text>
+                      <Text style={styles.body}>{item.landmark.extract}</Text>
+                    </View>
+                  )}
+                />
+                <View style={styles.footer}>
                 </View>
+              </View>
+            )}
+          </View>
+          <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
+        <Text style={styles.homeBtnText}>Home</Text>
+      </TouchableOpacity>
+        </ImageBackground>
+      </View>
 
-              )} />
-            <View style={styles.footer}>
-              <TouchableOpacity style={styles.button}>
-                <Text>Go Home</Text>
-              </TouchableOpacity>
-            </View>
-    
-        </View>
-
-
-      }
-
+      <StatusBar style="auto" />
     </View>
   );
 };
@@ -85,25 +103,63 @@ export default FactsViewScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  card: {
+    width: '100%',
+    height: '100%',
+    alignSelf: 'center',
+
+    overflow: 'hidden',
+    shadowColor: '#000',
+
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  },
+  cardBackground: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
+  cardContent: {
+    flex: 1,
+    padding: 20,
   },
   title: {
-    marginTop: 20,
-    textAlign: "center"
+    fontSize: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    fontWeight: 'bold',
+    color: 'white',
   },
   body: {
-    padding: "5%",
-    margin: "5%",
-    backgroundColor: "grey",
-    borderRadius: 5
+    color: 'white',
+    backgroundColor: 'transparent',
+    borderRadius: 5,
+    fontSize: 16,
+    color: 'black',
   },
-  button: {
-    bottom: 30,
-    backgroundColor: "red",
-    padding: 20,
-    borderRadius: 10
-  }
+  homeBtn: {
+    alignSelf: "flex-start",
+    marginBottom: 20,
+    backgroundColor: "#BADA55",
+    padding: 10,
+    marginLeft: 20,
 
+    borderRadius: 5,
+  },
+  imageWrapper: {
+    width: '100%',
+    height: 300,
+    alignItems: 'center',
+    justifyContent: 'center',
+  marginTop: 40,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
 });
