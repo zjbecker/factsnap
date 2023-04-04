@@ -13,8 +13,29 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
+const imageBackgroundArray = [
+  require("../assets/BGvariant130.png"),
+  require("../assets/BGvariantBigBen.png"),
+  require("../assets/BGvariantBurjKhalifa.png"),
+  require("../assets/BGvariantColosseum.png"),
+  require("../assets/BGvariantGoldenBridge.png"),
+  require("../assets/BgVariantdubaiv2.png"),
+  require("../assets/BGvariantEgyptCity.png"),
+  require("../assets/BGVariantNYC.png"),
+  require("../assets/BGvariantPyramidsv2.png"),
+  require("../assets/BGvariantRomev2.png"),
+  require("../assets/BGvariantVenice.png"),
+  require("../assets/BGvariantRomev2.png"),
+  require("../assets/BGvariantSyndneyHousev2.png"),
+  require("../assets/BGvariantVenicev2.png"),
+  ]
+
+
 
 const LoggedInScreen = ({ navigation }) => {
+  const randomIndex = Math.floor(Math.random() * imageBackgroundArray.length);
+  const selectedImage = imageBackgroundArray[randomIndex];
+
   const handleSignOut = () => {
     const eraseDetails = async () => {
       try {
@@ -53,14 +74,14 @@ const LoggedInScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <ImageBackground
-          source={require("../assets/BGvariant130.png")}
+          source={selectedImage}
           style={styles.cardBackground}
         >
           <Text style={styles.logoText}>FactSnap</Text>
           <View style={styles.optionsContainer}>
             <TouchableOpacity style={styles.option} onPress={handleCameraPress}>
               <Image
-                source={require("../assets/whiteCameraIcon.png")}
+                source={require('../assets/whiteCameraIcon.png')}
                 style={styles.icon}
               />
               <Text style={styles.optionText}>Camera</Text>
@@ -119,7 +140,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignSelf: "center",
-    borderRadius: 10,
+    
     overflow: "hidden",
     shadowColor: "#000",
 
@@ -148,15 +169,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     padding: 20,
+
   },
   option: {
+
     justifyContent: "center",
     alignItems: "center",
     width: "80%",
     height: "25%",
     borderWidth: 3,
-    borderColor: "white",
+    borderColor: "#D1ECF1",
     borderRadius: 15,
+    
   },
   icon: {
     width: 80,

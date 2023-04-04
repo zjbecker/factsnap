@@ -11,7 +11,22 @@ import {
   ImageBackground,
   Pressable
 } from "react-native";
-
+const imageBackgroundArray = [
+  require("../assets/BGvariant130.png"),
+  require("../assets/BGvariantBigBen.png"),
+  require("../assets/BGvariantBurjKhalifa.png"),
+  require("../assets/BGvariantColosseum.png"),
+  require("../assets/BGvariantGoldenBridge.png"),
+  require("../assets/BgVariantdubaiv2.png"),
+  require("../assets/BGvariantEgyptCity.png"),
+  require("../assets/BGVariantNYC.png"),
+  require("../assets/BGvariantPyramidsv2.png"),
+  require("../assets/BGvariantRomev2.png"),
+  require("../assets/BGvariantVenice.png"),
+  require("../assets/BGvariantRomev2.png"),
+  require("../assets/BGvariantSyndneyHousev2.png"),
+  require("../assets/BGvariantVenicev2.png"),
+  ]
 import { UserContext } from "../Context/UserContext";
 import { getUserPostsData } from "../utils/dbUtils";
 
@@ -71,10 +86,13 @@ const ProfileHistoryScreen = ({ navigation }) => {
 
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
+  const randomIndex = Math.floor(Math.random() * imageBackgroundArray.length);
+  const selectedImage = imageBackgroundArray[randomIndex];
+
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../assets/BGvariant130.png')}
+        source={selectedImage}
         style={styles.background}
       >
 

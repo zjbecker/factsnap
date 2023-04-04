@@ -4,6 +4,23 @@ import { uploadImageAndRequestAPI } from "../utils/storageUtils";
 import { UserContext } from "../Context/UserContext";
 import { getUserPostsData, uploadAPIResults } from "../utils/dbUtils";
 
+const imageBackgroundArray = [
+  require("../assets/BGvariant130.png"),
+  require("../assets/BGvariantBigBen.png"),
+  require("../assets/BGvariantBurjKhalifa.png"),
+  require("../assets/BGvariantColosseum.png"),
+  require("../assets/BGvariantGoldenBridge.png"),
+  require("../assets/BgVariantdubaiv2.png"),
+  require("../assets/BGvariantEgyptCity.png"),
+  require("../assets/BGVariantNYC.png"),
+  require("../assets/BGvariantPyramidsv2.png"),
+  require("../assets/BGvariantRomev2.png"),
+  require("../assets/BGvariantVenice.png"),
+  require("../assets/BGvariantRomev2.png"),
+  require("../assets/BGvariantSyndneyHousev2.png"),
+  require("../assets/BGvariantVenicev2.png"),
+  ]
+
 // import { styles } from "./Styles";
 import { Camera } from "expo-camera";
 import {
@@ -35,6 +52,12 @@ const CameraScreen = ({ navigation }) => {
   // the user when the backend has responded with facts.
   const [submitted, setSubmitted] = useState(false);
   const [uploaded, setUploaded] = useState(false);
+
+  const randomIndex = Math.floor(Math.random() * imageBackgroundArray.length);
+  const selectedImage = imageBackgroundArray[randomIndex];
+
+
+
 
   // Asks for camera permissions on page load
 
@@ -128,7 +151,7 @@ const CameraScreen = ({ navigation }) => {
       <View style={styles.card}>
         <View></View>
         <ImageBackground
-          source={require("../assets/BGvariant130.png")}
+          source={selectedImage}
           style={styles.cardBackground}
         >
           {hasCameraPermission ? (

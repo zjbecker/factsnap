@@ -117,7 +117,7 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: 'green'
   },
   circleContainer: {
     flex: 1,
