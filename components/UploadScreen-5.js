@@ -5,23 +5,7 @@ import { UserContext } from '../Context/UserContext'
 import { uploadImageAndRequestAPI } from '../utils/storageUtils';
 import { uploadAPIResults, getUserPostsData } from '../utils/dbUtils';
 import * as ImagePicker from "expo-image-picker"
-
-const imageBackgroundArray = [
-  require("../assets/BGvariant130.png"),
-  require("../assets/BGvariantBigBen.png"),
-  require("../assets/BGvariantBurjKhalifa.png"),
-  require("../assets/BGvariantColosseum.png"),
-  require("../assets/BGvariantGoldenBridge.png"),
-  require("../assets/BgVariantdubaiv2.png"),
-  require("../assets/BGvariantEgyptCity.png"),
-  require("../assets/BGVariantNYC.png"),
-  require("../assets/BGvariantPyramidsv2.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantVenice.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantSyndneyHousev2.png"),
-  require("../assets/BGvariantVenicev2.png"),
-  ]
+import { BackgroundGenerator } from './BackgroundGenerator';
 
 function UploadScreen({ navigation }) {
 
@@ -100,16 +84,12 @@ function UploadScreen({ navigation }) {
     navigation.replace("Home");
   };
 
-  const randomIndex = Math.floor(Math.random() * imageBackgroundArray.length);
-  const selectedImage = imageBackgroundArray[randomIndex];
+
 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-      <ImageBackground
-          source={selectedImage}
-          style={styles.cardBackground}
-        >
+      <BackgroundGenerator>
       <Text style={styles.logoText}>FactSnap</Text>
         <View style={styles.imageContainer}>
           {image ? (
@@ -161,7 +141,7 @@ function UploadScreen({ navigation }) {
         <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
         <Text style={styles.homeBtnText}>Home</Text>
       </TouchableOpacity>
-      </ ImageBackground>
+      </ BackgroundGenerator>
       </View>
       
     </View>
@@ -188,7 +168,7 @@ const styles = StyleSheet.create({
     height: "100%",
     alignSelf: "center",
 
-    borderRadius: 10,
+
     overflow: "hidden",
     shadowColor: "#000",
     marginBottom: 15,
@@ -196,21 +176,22 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.23,
+    shadowOpacity: 0.25,
     shadowRadius: 2.62,
     elevation: 4,
     backgroundColor: "#FFF",
   },
-  cardBackground: {
-    flex: 1,
-    resizeMode: "cover",
-    alignItems: 'center',
-  },
+  // cardBackground: {
+  //   flex: 1,
+  //   resizeMode: "cover",
+  //   alignItems: 'center',
+
+  // },
   imageContainer: {
     width: "90%",
     height: "60%",
     backgroundColor: "rgba(255, 255, 255, 0.4)", 
-    
+
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",

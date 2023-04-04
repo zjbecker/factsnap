@@ -4,22 +4,7 @@ import { uploadImageAndRequestAPI } from "../utils/storageUtils";
 import { UserContext } from "../Context/UserContext";
 import { getUserPostsData, uploadAPIResults } from "../utils/dbUtils";
 
-const imageBackgroundArray = [
-  require("../assets/BGvariant130.png"),
-  require("../assets/BGvariantBigBen.png"),
-  require("../assets/BGvariantBurjKhalifa.png"),
-  require("../assets/BGvariantColosseum.png"),
-  require("../assets/BGvariantGoldenBridge.png"),
-  require("../assets/BgVariantdubaiv2.png"),
-  require("../assets/BGvariantEgyptCity.png"),
-  require("../assets/BGVariantNYC.png"),
-  require("../assets/BGvariantPyramidsv2.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantVenice.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantSyndneyHousev2.png"),
-  require("../assets/BGvariantVenicev2.png"),
-  ]
+
 
 // import { styles } from "./Styles";
 import { Camera } from "expo-camera";
@@ -33,6 +18,7 @@ import {
   Button,
   ImageBackground,
 } from "react-native";
+import { BackgroundGenerator } from "./BackgroundGenerator";
 
 // TO DO -
 
@@ -53,8 +39,8 @@ const CameraScreen = ({ navigation }) => {
   const [submitted, setSubmitted] = useState(false);
   const [uploaded, setUploaded] = useState(false);
 
-  const randomIndex = Math.floor(Math.random() * imageBackgroundArray.length);
-  const selectedImage = imageBackgroundArray[randomIndex];
+
+  
 
 
 
@@ -150,10 +136,7 @@ const CameraScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <View></View>
-        <ImageBackground
-          source={selectedImage}
-          style={styles.cardBackground}
-        >
+        <BackgroundGenerator>
           {hasCameraPermission ? (
             <>
               <View style={styles.cameraFocusArea}>
@@ -221,7 +204,7 @@ const CameraScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
         <Text style={styles.homeBtnText}>Home</Text>
       </TouchableOpacity>
-        </ImageBackground>
+      </BackgroundGenerator>
       </View>
       
     </View>
