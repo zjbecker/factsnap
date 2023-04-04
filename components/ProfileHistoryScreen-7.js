@@ -214,6 +214,32 @@ const ProfileHistoryScreen = ({ navigation }) => {
                       }}
                     >
                       <Text>View</Text>
+                      
+                    </Pressable>
+                    <Pressable
+                      onPress={() => {
+                        // delete function here
+                      }}
+                      style={{
+                        backgroundColor: "white",
+                        width: 20,
+                        height: 20,
+                        borderColor: "white",
+                        borderWidth: 2,
+ 
+                        
+                        position: "absolute",
+                        bottom: '82%',
+                        left: '15%',
+                        shadowColor: "#000",
+                        shadowOpacity: 0.2,
+                        shadowRadius: 20,
+
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text style={[{ color: 'black', fontWeight: 'bold', }]}>X</Text>
+                      
                     </Pressable>
                   </View>
                 );
