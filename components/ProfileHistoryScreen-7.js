@@ -87,8 +87,8 @@ const ProfileHistoryScreen = ({ navigation }) => {
         }
 
         {(!isLoading && userHasNoPosts) && // if user has no posts
-          <View>
-            <View style={styles.noPostsContainer} >
+          <View style={{ flex: 1 }}>
+            <View>
               <Text style={styles.noPostsText}>You have no posts yet. Take a photo to get started.</Text>
 
             </View>
@@ -96,15 +96,15 @@ const ProfileHistoryScreen = ({ navigation }) => {
 
         }
         {(!isLoading && !userHasNoPosts)&& (
-          <>
+          <View style={{ flex: 1 }}>
             <StatusBar hidden />
             <View style={{
 
               justifyContent: "center",
               alignItems: "center",
               flex: 1,
-              marginBottom: "-50%",
-              marginTop: "-10%",
+              // marginBottom: "-50%",
+              // marginTop: "-10%",
 
 
             }}>
@@ -214,7 +214,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
                 );
               }}
             />
-          </>
+          </View>
         )}
         <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
           <Text style={styles.homeBtnText}>Home</Text>
@@ -233,6 +233,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    width: '100%',
+    height: '100%',
   },
   itemContainer: {
     width: ITEM_WIDTH,
@@ -277,23 +279,27 @@ const styles = StyleSheet.create({
   loadingContainer: {
     justifyContent: "center",
     alignItems: "center",
-    flex: 1
+    flex: 1,
+
+
   },
   loadingText: {
-    width: "50%",
+    width: "100%",
     fontSize: 40,
     color: "white",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+
   },
   noPostsContainer: {
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
     backgroundColor: "#BADA55",
-
+    height: '100%',
+    width: '100%',
     paddingTop: 30,
     paddingBottom: 30,
-    marginBottom: "110%",
+    // marginBottom: "110%",
     borderBottomWidth: 5,
 
     borderColor: "white"
@@ -303,6 +309,6 @@ const styles = StyleSheet.create({
     width: "80%",
     fontSize: 30,
     color: "white",
-    flexWrap: "wrap"
+    // flexWrap: "wrap"
   }
 });
