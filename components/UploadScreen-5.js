@@ -6,6 +6,22 @@ import { uploadImageAndRequestAPI } from '../utils/storageUtils';
 import { uploadAPIResults, getUserPostsData } from '../utils/dbUtils';
 import * as ImagePicker from "expo-image-picker"
 
+const imageBackgroundArray = [
+  require("../assets/BGvariant130.png"),
+  require("../assets/BGvariantBigBen.png"),
+  require("../assets/BGvariantBurjKhalifa.png"),
+  require("../assets/BGvariantColosseum.png"),
+  require("../assets/BGvariantGoldenBridge.png"),
+  require("../assets/BgVariantdubaiv2.png"),
+  require("../assets/BGvariantEgyptCity.png"),
+  require("../assets/BGVariantNYC.png"),
+  require("../assets/BGvariantPyramidsv2.png"),
+  require("../assets/BGvariantRomev2.png"),
+  require("../assets/BGvariantVenice.png"),
+  require("../assets/BGvariantRomev2.png"),
+  require("../assets/BGvariantSyndneyHousev2.png"),
+  require("../assets/BGvariantVenicev2.png"),
+  ]
 
 function UploadScreen({ navigation }) {
 
@@ -84,11 +100,14 @@ function UploadScreen({ navigation }) {
     navigation.replace("Home");
   };
 
+  const randomIndex = Math.floor(Math.random() * imageBackgroundArray.length);
+  const selectedImage = imageBackgroundArray[randomIndex];
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
       <ImageBackground
-          source={require("../assets/BGvariant130.png")}
+          source={selectedImage}
           style={styles.cardBackground}
         >
       <Text style={styles.logoText}>FactSnap</Text>
