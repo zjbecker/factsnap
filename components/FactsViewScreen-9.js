@@ -35,9 +35,6 @@ const imageBackgroundArray = [
 import { useState, useEffect } from "react";
 
 const FactsViewScreen = ({ navigation, route }) => {
-  /* At the moment, this component has no front end, but the all the data from backend is saved in state -
-  postData contains an array with objects, each object is a result from the API.  picData contains the picture
-  url from firebase which can just be stuck straight in an Image tag and should work (once it's loaded) */
 
   console.log(route.params.paramKey);
 
@@ -52,7 +49,7 @@ const FactsViewScreen = ({ navigation, route }) => {
     const responseFromProp = route.params.paramKey; // route.params.paramkey is received as a prop, contains the post object being viewed
 
     let filteredResults = [];
-    if (responseFromProp.hasOwnProperty("results")) {
+    if (responseFromProp.hasOwnProperty("results") && responseFromProp.results.length > 0) {
       filteredResults = responseFromProp.results.filter(
         (entry) => !entry.hasOwnProperty("error")
       ); // removes error posts
