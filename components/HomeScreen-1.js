@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
   const animation = (toValue) =>
     Animated.timing(animatedValue, {
       toValue,
-      duration: 1700,
+      duration: 2200,
       useNativeDriver: false,
     });
 

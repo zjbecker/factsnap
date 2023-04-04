@@ -43,13 +43,13 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
   const containerBg = animatedValue.interpolate({
     inputRange: [0, 0.001, 0.5, 0.501, 1],
     outputRange: ["#FFFC00", "#FFFC00", "#FFFC00", "#FFFC00", "#FFFC00"],
-    // outputRange: ["#0047AB", "#0047AB", "#0047AB", "white", "white"],
+
 
   });
 
   const circleBg = animatedValue.interpolate({
     inputRange: [0, 0.001, 0.5, 0.501, 1],
-    // outputRange: ["white", "white", "white", "#27AE60", "#27AE60"],
+
     outputRange: ["white", "white", "white", "gold", "gold"],
   });
 
@@ -66,7 +66,7 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
       {
         rotateY: animatedValue.interpolate({
           inputRange: [0, 0.5, 1],
-          outputRange: ["0deg", "-90deg", "-360deg"],
+          outputRange: ["0deg", "-90deg", "-180deg"],
         }),
       },
       {
@@ -86,7 +86,7 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
 
   const renderCircleContent = () => {
     if (animatedValue.__getValue() < 0.5) {
-      return <AntDesign name="arrowright" size={28} color={"black"} />;
+      return <AntDesign name="arrowright" size={44} color={"black"} />;
     } else {
       return <Text style={styles.submitText}>Submit</Text>;
     }
