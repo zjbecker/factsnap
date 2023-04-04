@@ -44,7 +44,6 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
     inputRange: [0, 0.001, 0.5, 0.501, 1],
     outputRange: ["#FFFC00", "#FFFC00", "#FFFC00", "#FFFC00", "#FFFC00"],
     // outputRange: ["#0047AB", "#0047AB", "#0047AB", "white", "white"],
-
   });
 
   const circleBg = animatedValue.interpolate({
@@ -55,8 +54,8 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
 
   const circleStyle = {
     opacity: animatedValue.interpolate({
-        inputRange: [0, 0.5, 0.501, 1],
-        outputRange: [1, 1, 0, 0],
+      inputRange: [0, 0.5, 0.501, 1],
+      outputRange: [1, 1, 0, 0],
     }),
     backgroundColor: circleBg,
     transform: [
@@ -86,7 +85,7 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
 
   const renderCircleContent = () => {
     if (animatedValue.__getValue() < 0.5) {
-      return <AntDesign name="arrowright" size={28} color={"black"} />;
+      return <AntDesign name="arrowright" size={35} color={"black"} />;
     } else {
       return <Text style={styles.submitText}>Submit</Text>;
     }
@@ -117,7 +116,7 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'green'
+    backgroundColor: "green",
   },
   circleContainer: {
     flex: 1,
@@ -125,7 +124,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 8,
     paddingBottom: 0,
-    
   },
   circle: {
     backgroundColor: "#444",
@@ -133,13 +131,11 @@ const styles = StyleSheet.create({
     height: CIRCLE_SIZE,
     borderRadius: CIRCLE_SIZE,
     marginBottom: 100,
-    
   },
   circleButton: {
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
-    
   },
   submitText: {
     fontSize: 18,
