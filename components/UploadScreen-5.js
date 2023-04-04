@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: StatusBar.currentHeight,
+    
   },
   logoText: {
     fontSize: 50,
@@ -247,6 +247,11 @@ const styles = StyleSheet.create({
 
     borderRadius: 5,
   },
+
+homeBtnText: {
+  color: 'white',
+}
 });
+
 
 export default UploadScreen;

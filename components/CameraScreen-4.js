@@ -313,11 +313,14 @@ const styles = StyleSheet.create({
   },
   homeBtn: {
     alignSelf: "flex-start",
-
+    
     backgroundColor: "#BADA55",
     padding: 10,
     marginLeft: 20,
     marginBottom: 20,
     borderRadius: 5,
   },
+  homeBtnText: {
+    color: 'white',
+  }
 });

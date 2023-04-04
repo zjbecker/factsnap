@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: StatusBar.currentHeight,
+
   },
   logoText: {
     fontSize: 50,

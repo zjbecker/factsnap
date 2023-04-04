@@ -9,7 +9,7 @@ import {
   Dimensions,
   Animated,
   ImageBackground,
-  Pressable
+  Pressable,
 } from "react-native";
 
 import { UserContext } from "../Context/UserContext";
@@ -26,7 +26,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
   const [postsData, setPostsData] = useState([]);
   const [picsData, setPicsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [userHasNoPosts, setUserHasNoPosts] = useState(false)
+  const [userHasNoPosts, setUserHasNoPosts] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -35,8 +35,8 @@ const ProfileHistoryScreen = ({ navigation }) => {
     getUserPostsData(userDetails)
       .then((data) => {
         if (!data) {
-          setUserHasNoPosts(true)
-          setIsLoading(false)
+          setUserHasNoPosts(true);
+          setIsLoading(false);
         } else {
           const processedApiResults = data.map((entry) => {
             return entry[Object.keys(entry)];
@@ -71,49 +71,55 @@ const ProfileHistoryScreen = ({ navigation }) => {
 
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-
-
   return (
     <View style={styles.container}>
       <BackgroundGenerator>
-
-        {isLoading && // if loading
+        {isLoading && ( // if loading
           <View style={styles.loadingContainer}>
-
             <Text style={styles.loadingText}>Loading...</Text>
-
-
           </View>
-        }
+        )}
 
-        {(!isLoading && userHasNoPosts) && // if user has no posts
-          <View style={{ flex: 1 }}>
-            <View>
-              <Text style={styles.noPostsText}>You have no posts yet. Take a photo to get started.</Text>
-
+        {!isLoading &&
+          userHasNoPosts && ( // if user has no posts
+            <View style={{ flex: 1 }}>
+              <View style={styles.noPostTextContainer}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    maxWidth: "80%",
+                    fontSize: 40,
+                    color: "black",
+                    marginTop: 20,
+                  }}
+                >
+                  You have no posts yet. Take a photo to get started.
+                </Text>
+              </View>
             </View>
-          </View>
-
-        }
-        {(!isLoading && !userHasNoPosts)&& (
+          )}
+        {!isLoading && !userHasNoPosts && (
           <View style={{ flex: 1 }}>
             <StatusBar hidden />
-            <View style={{
-
-              justifyContent: "center",
-              alignItems: "center",
-              flex: 1,
-              // marginBottom: "-50%",
-              // marginTop: "-10%",
-
-
-            }}>
-              <Text style={{
-                textAlign: "center",
-                fontSize: 30,
-                fontWeight: "bold",
-                color: "white"
-              }}>Your History</Text>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                flex: 1,
+                // marginBottom: "-50%",
+                // marginTop: "-10%",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 30,
+                  fontWeight: "bold",
+                  color: "white",
+                }}
+              >
+                Your History
+              </Text>
             </View>
             <Animated.FlatList
               data={postsData}
@@ -125,8 +131,6 @@ const ProfileHistoryScreen = ({ navigation }) => {
                 [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                 { useNativeDriver: true }
               )}
-
-
               renderItem={({ item, index }) => {
                 const inputRange = [
                   (index - 1) * width,
@@ -185,11 +189,10 @@ const ProfileHistoryScreen = ({ navigation }) => {
                           }}
                         />
                       </View>
-
                     </View>
                     <Pressable
                       onPress={() => {
-                        viewIndividualResult(index)
+                        viewIndividualResult(index);
                       }}
                       style={{
                         backgroundColor: "white",
@@ -205,11 +208,13 @@ const ProfileHistoryScreen = ({ navigation }) => {
                         shadowRadius: 20,
                         shadowOffset: {
                           width: 0,
-                          height: 0
+                          height: 0,
                         },
-                        alignItems: "center"
-
-                      }}><Text>View</Text></Pressable>
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text>View</Text>
+                    </Pressable>
                   </View>
                 );
               }}
@@ -219,9 +224,8 @@ const ProfileHistoryScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
           <Text style={styles.homeBtnText}>Home</Text>
         </TouchableOpacity>
-        </ BackgroundGenerator>
+      </BackgroundGenerator>
     </View>
-
   );
 };
 
@@ -233,8 +237,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   itemContainer: {
     width: ITEM_WIDTH,
@@ -274,41 +278,46 @@ const styles = StyleSheet.create({
   },
   background: {
     width: "100%",
-    height: "100%"
+    height: "100%",
   },
   loadingContainer: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-
-
   },
   loadingText: {
     width: "100%",
     fontSize: 40,
     color: "white",
     flexWrap: "wrap",
-
   },
   noPostsContainer: {
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
     backgroundColor: "#BADA55",
-    height: '100%',
-    width: '100%',
-    paddingTop: 30,
+    height: "100%",
+    width: "100%",
+
     paddingBottom: 30,
-    // marginBottom: "110%",
+
     borderBottomWidth: 5,
 
-    borderColor: "white"
-
+    borderColor: "white",
   },
   noPostsText: {
     width: "80%",
     fontSize: 30,
     color: "white",
-    flexWrap: "wrap"
-  }
+    flexWrap: "wrap",
+  },
+  noPostTextContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+
+  homeBtnText: {
+    color: "white",
+  },
 });
