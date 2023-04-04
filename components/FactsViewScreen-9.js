@@ -55,7 +55,7 @@ const FactsViewScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <ImageBackground
-          source={require('../assets/BGvariant112.png')}
+          source={require('../assets/BGvariant130.png')}
           style={styles.cardBackground}
         >
           <View style={styles.cardContent}>
@@ -87,11 +87,12 @@ const FactsViewScreen = ({ navigation, route }) => {
               </View>
             )}
           </View>
-        </ImageBackground>
-      </View>
-      <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
+          <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
         <Text style={styles.homeBtnText}>Home</Text>
       </TouchableOpacity>
+        </ImageBackground>
+      </View>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -107,13 +108,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   card: {
-    width: '90%',
-    height: '90%',
+    width: '100%',
+    height: '100%',
     alignSelf: 'center',
-    borderRadius: 10,
+
     overflow: 'hidden',
     shadowColor: '#000',
-    marginBottom: 15,
+
     shadowOffset: {
       width: 0,
       height: 2,
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
   },
   homeBtn: {
     alignSelf: "flex-start",
-
+    marginBottom: 20,
     backgroundColor: "#BADA55",
     padding: 10,
     marginLeft: 20,
@@ -155,6 +156,7 @@ const styles = StyleSheet.create({
     height: 300,
     alignItems: 'center',
     justifyContent: 'center',
+  marginTop: 40,
   },
   image: {
     width: '100%',

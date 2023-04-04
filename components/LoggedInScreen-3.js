@@ -53,7 +53,7 @@ const LoggedInScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <ImageBackground
-          source={require("../assets/BGvariant131.png")}
+          source={require("../assets/BGvariant130.png")}
           style={styles.cardBackground}
         >
           <Text style={styles.logoText}>FactSnap</Text>
@@ -86,14 +86,15 @@ const LoggedInScreen = ({ navigation }) => {
               <Text style={styles.optionText}>Profile History</Text>
             </TouchableOpacity>
           </View>
-        </ImageBackground>
-      </View>
-      {/* <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={styles.backArrow}>←</Text>
-      </TouchableOpacity> */}
-      <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
+        <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
+        </ImageBackground>
+      </View>
+
+      {/* <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
+        <Text style={styles.signOutText}>Sign Out</Text>
+      </TouchableOpacity> */}
       <StatusBar style="auto" />
     </View>
   );
@@ -104,7 +105,7 @@ export default LoggedInScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "yellow",
     justifyContent: "center",
   },
   logoText: {
@@ -115,13 +116,13 @@ const styles = StyleSheet.create({
     color: "white",
   },
   card: {
-    width: "90%",
-    height: "90%",
+    width: "100%",
+    height: "100%",
     alignSelf: "center",
     borderRadius: 10,
     overflow: "hidden",
     shadowColor: "#000",
-    marginBottom: 15,
+
     shadowOffset: {
       width: 0,
       height: 2,
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   },
   signOutButton: {
     alignSelf: "flex-start",
-
+    marginBottom: 15,
     backgroundColor: "#BADA55",
     padding: 10,
     marginLeft: 20,

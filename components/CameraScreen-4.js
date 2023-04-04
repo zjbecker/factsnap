@@ -128,7 +128,7 @@ const CameraScreen = ({ navigation }) => {
       <View style={styles.card}>
         <View></View>
         <ImageBackground
-          source={require("../assets/BGvariant112.png")}
+          source={require("../assets/BGvariant130.png")}
           style={styles.cardBackground}
         >
           {hasCameraPermission ? (
@@ -195,11 +195,12 @@ const CameraScreen = ({ navigation }) => {
               </Text>
             </View>
           )}
-        </ImageBackground>
-      </View>
-      <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
+          <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
         <Text style={styles.homeBtnText}>Home</Text>
       </TouchableOpacity>
+        </ImageBackground>
+      </View>
+      
     </View>
   );
 };
@@ -222,6 +223,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+    marginTop: 50,
   },
 
   bottomActionsContainer: {
@@ -277,13 +279,13 @@ const styles = StyleSheet.create({
     color: "white",
   },
   card: {
-    width: "90%",
-    height: "90%",
+    width: "100%",
+    height: "100%",
     alignSelf: "center",
-    borderRadius: 10,
+
     overflow: "hidden",
     shadowColor: "#000",
-    marginBottom: 15,
+
     shadowOffset: {
       width: 0,
       height: 2,
@@ -309,7 +311,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#BADA55",
     padding: 10,
     marginLeft: 20,
-
+    marginBottom: 20,
     borderRadius: 5,
   },
 });

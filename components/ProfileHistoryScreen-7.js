@@ -67,7 +67,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../assets/BGvariant112.png')}
+        source={require('../assets/BGvariant130.png')}
         style={styles.background}
       >
 

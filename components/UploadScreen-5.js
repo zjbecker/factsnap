@@ -88,7 +88,7 @@ function UploadScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.card}>
       <ImageBackground
-          source={require("../assets/BGvariant112.png")}
+          source={require("../assets/BGvariant130.png")}
           style={styles.cardBackground}
         >
       <Text style={styles.logoText}>FactSnap</Text>
@@ -139,11 +139,12 @@ function UploadScreen({ navigation }) {
   
 
         </View>
-      </ ImageBackground>
-      </View>
-      <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
+        <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
         <Text style={styles.homeBtnText}>Home</Text>
       </TouchableOpacity>
+      </ ImageBackground>
+      </View>
+      
     </View>
   );
 }
@@ -164,8 +165,8 @@ const styles = StyleSheet.create({
     color: "black",
   },
   card: {
-    width: "90%",
-    height: "90%",
+    width: "100%",
+    height: "100%",
     alignSelf: "center",
 
     borderRadius: 10,
