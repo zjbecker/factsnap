@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     letterSpacing: 11,
     fontFamily: "RobotoBlack",
     justifyContent: "center",
+    textAlignVertical: "center",
   },
 });
 
