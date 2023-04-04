@@ -172,12 +172,13 @@ const styles = StyleSheet.create({
 
   },
   option: {
+
     justifyContent: "center",
     alignItems: "center",
     width: "80%",
     height: "25%",
     borderWidth: 3,
-    borderColor: "white",
+    borderColor: "#D1ECF1",
     borderRadius: 15,
     
   },
