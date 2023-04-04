@@ -46,35 +46,36 @@ export const uploadImageAndRequestAPI = async (image, userDetails = { uid: "test
               // This bit sends the image to the backend.  There is also test data commented out here, 
               // which can replace the requestAPI line in order to not use google megabux credits and
               // reduce response time whilst testing.
-                // return requestInfoAPI(uri)
-                return {   // test data in place of api
-                    data: [
-                        {
-                          coordinates: {
-                            latitude: 51.508039,
-                            longitude: -0.128069
-                          },
-                          landmark: {
-                            extract: "Trafalgar Square is a public square in the City of Westminster, Central London, established in the early 19th century around the area formerly known as Charing Cross. The Square's name commemorates the Battle of Trafalgar, the British naval victory in the Napoleonic Wars over France and Spain that took place on 21 October 1805 off the coast of Cape Trafalgar.",
-                            img_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Trafalgar_Square%2C_London_2_-_Jun_2009.jpg/320px-Trafalgar_Square%2C_London_2_-_Jun_2009.jpg",
-                            title: "Trafalgar Square"
-                          },
-                          score: 0.8443822264671326
-                        },
-                        {
-                          coordinates: {
-                            latitude: 51.508928999999995,
-                            longitude: -0.128299
-                          },
-                          landmark: {
-                            extract: "The National Gallery is an art museum in Trafalgar Square in the City of Westminster, in Central London, England. Founded in 1824, in Trafalgar Square since 1838, it houses a collection of over 2,300 paintings dating from the mid-13th century to 1900. The current Director of the National Gallery is Gabriele Finaldi.",
-                            img_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Galer%C3%ADa_Nacional%2C_Londres%2C_Inglaterra%2C_2014-08-07%2C_DD_035.JPG/320px-Galer%C3%ADa_Nacional%2C_Londres%2C_Inglaterra%2C_2014-08-07%2C_DD_035.JPG",
-                            title: "National Gallery"
-                          },
-                          score: 0.27103060483932495
-                        }
-                      ]
-                }
+              
+                return requestInfoAPI(uri)
+                // return {   // test data in place of api
+                //     data: [
+                //         {
+                //           coordinates: {
+                //             latitude: 51.508039,
+                //             longitude: -0.128069
+                //           },
+                //           landmark: {
+                //             extract: "Trafalgar Square is a public square in the City of Westminster, Central London, established in the early 19th century around the area formerly known as Charing Cross. The Square's name commemorates the Battle of Trafalgar, the British naval victory in the Napoleonic Wars over France and Spain that took place on 21 October 1805 off the coast of Cape Trafalgar.",
+                //             img_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Trafalgar_Square%2C_London_2_-_Jun_2009.jpg/320px-Trafalgar_Square%2C_London_2_-_Jun_2009.jpg",
+                //             title: "Trafalgar Square"
+                //           },
+                //           score: 0.8443822264671326
+                //         },
+                //         {
+                //           coordinates: {
+                //             latitude: 51.508928999999995,
+                //             longitude: -0.128299
+                //           },
+                //           landmark: {
+                //             extract: "The National Gallery is an art museum in Trafalgar Square in the City of Westminster, in Central London, England. Founded in 1824, in Trafalgar Square since 1838, it houses a collection of over 2,300 paintings dating from the mid-13th century to 1900. The current Director of the National Gallery is Gabriele Finaldi.",
+                //             img_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Galer%C3%ADa_Nacional%2C_Londres%2C_Inglaterra%2C_2014-08-07%2C_DD_035.JPG/320px-Galer%C3%ADa_Nacional%2C_Londres%2C_Inglaterra%2C_2014-08-07%2C_DD_035.JPG",
+                //             title: "National Gallery"
+                //           },
+                //           score: 0.27103060483932495
+                //         }
+                //       ]
+                // }
 
             })
 

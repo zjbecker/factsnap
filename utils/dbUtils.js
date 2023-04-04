@@ -35,6 +35,7 @@ function processAPIResults(apiResponse) {
     // Process API results removes errors and adds an index to each landmark result.  It is called by
     // upload API results
     let results = []
+    
     apiResponse.forEach((entry, i) => {
 
         if (!entry.hasOwnProperty("error")) {

@@ -78,26 +78,43 @@ const ProfileHistoryScreen = ({ navigation }) => {
       <BackgroundGenerator>
 
         {isLoading && // if loading
-        <View style={styles.loadingContainer}>
+          <View style={styles.loadingContainer}>
 
-          <Text style={styles.loadingText}>Loading...</Text>
+            <Text style={styles.loadingText}>Loading...</Text>
 
 
-        </View>
+          </View>
         }
 
         {(!isLoading && userHasNoPosts) && // if user has no posts
           <View>
-            <View style={noPostsContainer} >
+            <View style={styles.noPostsContainer} >
               <Text style={styles.noPostsText}>You have no posts yet. Take a photo to get started.</Text>
 
             </View>
           </View>
 
         }
-        {!isLoading && (
+        {(!isLoading && !userHasNoPosts)&& (
           <>
             <StatusBar hidden />
+            <View style={{
+
+              justifyContent: "center",
+              alignItems: "center",
+              flex: 1,
+              marginBottom: "-50%",
+              marginTop: "-10%",
+
+
+            }}>
+              <Text style={{
+                textAlign: "center",
+                fontSize: 30,
+                fontWeight: "bold",
+                color: "white"
+              }}>Your History</Text>
+            </View>
             <Animated.FlatList
               data={postsData}
               keyExtractor={(item, index) => index.toString()}
@@ -108,6 +125,8 @@ const ProfileHistoryScreen = ({ navigation }) => {
                 [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                 { useNativeDriver: true }
               )}
+
+
               renderItem={({ item, index }) => {
                 const inputRange = [
                   (index - 1) * width,
@@ -271,11 +290,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     backgroundColor: "#BADA55",
-    top: "100%",
+
     paddingTop: 30,
     paddingBottom: 30,
+    marginBottom: "110%",
     borderBottomWidth: 5,
-    borderTopWidth: 5,
+
     borderColor: "white"
 
   },

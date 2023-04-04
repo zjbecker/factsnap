@@ -1,13 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, Text } from "react-native";
 
-const PhotoCapturedScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>View Picture</Text>
+      <Text>Profile</Text>
       <StatusBar style="auto" />
     </View>
   );
 };
 
-export default PhotoCapturedScreen;
+export default ProfileScreen;
