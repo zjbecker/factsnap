@@ -55,7 +55,13 @@ const LoggedInScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.card}>
         <BackgroundGenerator>
-          <Text style={styles.logoText}>F A C T S N A P</Text>
+          <Text
+            style={styles.logoText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
+            F A C T S N A P
+          </Text>
           <View style={styles.optionsContainer}>
             <TouchableOpacity style={styles.option} onPress={handleCameraPress}>
               <Image
