@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     },
   optionText: {
     fontSize: 20,
-    marginTop: 10,
+
     fontWeight: 'bold',
     color: "white",
     textAlign: 'center',
