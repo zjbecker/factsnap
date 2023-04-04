@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Dimensions,
   Animated,
-  ImageBackground
+  ImageBackground,
+  Pressable
 } from "react-native";
 
 import { UserContext } from "../Context/UserContext";
@@ -25,6 +26,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
   const [postsData, setPostsData] = useState([]);
   const [picsData, setPicsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [userHasNoPosts, setUserHasNoPosts] = useState(false)
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,20 +34,25 @@ const ProfileHistoryScreen = ({ navigation }) => {
 
     getUserPostsData(userDetails)
       .then((data) => {
-        const processedApiResults = data.map((entry) => {
-          return entry[Object.keys(entry)];
-        });
-        processedApiResults.forEach((post) => {
-          pictureUris.push(post.imgUri);
-        });
+        if (!data) {
+          setUserHasNoPosts(true)
+          setIsLoading(false)
+        } else {
+          const processedApiResults = data.map((entry) => {
+            return entry[Object.keys(entry)];
+          });
+          processedApiResults.forEach((post) => {
+            pictureUris.push(post.imgUri);
+          });
 
-        const promises = [
-          Promise.resolve(setPostsData(processedApiResults)),
-          Promise.resolve(setPicsData(pictureUris)),
-        ];
-        Promise.all(promises).then(() => {
-          setIsLoading(false);
-        });
+          const promises = [
+            Promise.resolve(setPostsData(processedApiResults)),
+            Promise.resolve(setPicsData(pictureUris)),
+          ];
+          Promise.all(promises).then(() => {
+            setIsLoading(false);
+          });
+        }
       })
       .catch((error) => {
         console.log(error, "<<<< ERROR");
@@ -71,89 +78,129 @@ const ProfileHistoryScreen = ({ navigation }) => {
         style={styles.background}
       >
 
-      {isLoading && <Text>Loading</Text>}
-      {!isLoading && (
-        <>
-          <StatusBar hidden />
-          <Animated.FlatList
-            data={postsData}
-            keyExtractor={(item, index) => index.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-              { useNativeDriver: true }
-            )}
-            renderItem={({ item, index }) => {
-              const inputRange = [
-                (index - 1) * width,
-                index * width,
-                (index + 1) * width,
-              ];
-              const translateX = scrollX.interpolate({
-                inputRange,
-                outputRange: [-width * 0.7, 0, width * 0.7],
-              });
+        {isLoading && // if loading
+        <View style={styles.loadingContainer}>
 
-              return (
-                <View
-                  style={{
-                    width,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 18,
-                  }}
-                >
+          <Text style={styles.loadingText}>Loading...</Text>
+
+
+        </View>
+        }
+
+        {(!isLoading && userHasNoPosts) && // if user has no posts
+          <View>
+            <View style={noPostsContainer} >
+              <Text style={styles.noPostsText}>You have no posts yet. Take a photo to get started.</Text>
+
+            </View>
+          </View>
+
+        }
+        {!isLoading && (
+          <>
+            <StatusBar hidden />
+            <Animated.FlatList
+              data={postsData}
+              keyExtractor={(item, index) => index.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: true }
+              )}
+              renderItem={({ item, index }) => {
+                const inputRange = [
+                  (index - 1) * width,
+                  index * width,
+                  (index + 1) * width,
+                ];
+                const translateX = scrollX.interpolate({
+                  inputRange,
+                  outputRange: [-width * 0.7, 0, width * 0.7],
+                });
+
+                return (
                   <View
                     style={{
+                      width,
+                      justifyContent: "center",
+                      alignItems: "center",
                       borderRadius: 18,
-                      shadowColor: "#000",
-                      shadowOpacity: 0.5,
-                      shadowRadius: 30,
-                      shadowOffset: {
-                        width: 0,
-                        height: 0,
-                      },
-                      borderRadius: 18,
-                      padding: 12,
-                      backgroundColor: "white",
                     }}
                   >
                     <View
                       style={{
-                        width: ITEM_WIDTH,
-                        height: ITEM_HEIGHT,
-                        overflow: "hidden",
-                        alignItems: "center",
-                        borderRadius: 14,
+                        borderRadius: 18,
+                        shadowColor: "#000",
+                        shadowOpacity: 0.5,
+                        shadowRadius: 30,
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        borderRadius: 18,
+                        padding: 12,
+                        backgroundColor: "white",
                       }}
                     >
-                      <Animated.Image
-                        source={{ uri: picsData[index] }}
+                      <View
                         style={{
-                          width: ITEM_WIDTH * 1.4,
+                          width: ITEM_WIDTH,
                           height: ITEM_HEIGHT,
-                          resizeMode: "cover",
-                          transform: [
-                            {
-                              translateX,
-                            },
-                          ],
+                          overflow: "hidden",
+                          alignItems: "center",
+                          borderRadius: 14,
                         }}
-                      />
-                    </View>
+                      >
+                        <Animated.Image
+                          source={{ uri: picsData[index] }}
+                          style={{
+                            width: ITEM_WIDTH * 1.4,
+                            height: ITEM_HEIGHT,
+                            resizeMode: "cover",
+                            transform: [
+                              {
+                                translateX,
+                              },
+                            ],
+                          }}
+                        />
+                      </View>
 
+                    </View>
+                    <Pressable
+                      onPress={() => {
+                        viewIndividualResult(index)
+                      }}
+                      style={{
+                        backgroundColor: "white",
+                        width: 100,
+                        borderColor: "white",
+                        borderWidth: 2,
+                        padding: 6,
+                        borderRadius: 14,
+                        position: "absolute",
+                        bottom: "16%",
+                        shadowColor: "#000",
+                        shadowOpacity: 0.2,
+                        shadowRadius: 20,
+                        shadowOffset: {
+                          width: 0,
+                          height: 0
+                        },
+                        alignItems: "center"
+
+                      }}><Text>View</Text></Pressable>
                   </View>
-                </View>
-              );
-            }}
-          />
-        </>
-      )}
-      <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
-        <Text style={styles.homeBtnText}>Home</Text>
-      </TouchableOpacity>
+                );
+              }}
+            />
+          </>
+        )}
+        <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
+          <Text style={styles.homeBtnText}>Home</Text>
+        </TouchableOpacity>
       </ImageBackground>
     </View>
 
@@ -205,4 +252,38 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 5,
   },
+  background: {
+    width: "100%",
+    height: "100%"
+  },
+  loadingContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1
+  },
+  loadingText: {
+    width: "50%",
+    fontSize: 40,
+    color: "white",
+    flexWrap: "wrap"
+  },
+  noPostsContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    backgroundColor: "#BADA55",
+    top: "100%",
+    paddingTop: 30,
+    paddingBottom: 30,
+    borderBottomWidth: 5,
+    borderTopWidth: 5,
+    borderColor: "white"
+
+  },
+  noPostsText: {
+    width: "80%",
+    fontSize: 30,
+    color: "white",
+    flexWrap: "wrap"
+  }
 });
