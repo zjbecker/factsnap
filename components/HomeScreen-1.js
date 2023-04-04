@@ -37,7 +37,13 @@ const HomeScreen = ({ navigation }) => {
       />
 
       <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>FACTSNAP</Text>
+        <Text
+          style={styles.logoText}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+        >
+          FACTSNAP
+        </Text>
       </View>
     </View>
   );
@@ -61,7 +67,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
     textAlign: "center",
-    letterSpacing: 15,
+    letterSpacing: 11,
     fontFamily: "RobotoBlack",
     justifyContent: "center",
   },
