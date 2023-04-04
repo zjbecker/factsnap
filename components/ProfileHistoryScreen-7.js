@@ -309,6 +309,6 @@ const styles = StyleSheet.create({
     width: "80%",
     fontSize: 30,
     color: "white",
-    // flexWrap: "wrap"
+    flexWrap: "wrap"
   }
 });
