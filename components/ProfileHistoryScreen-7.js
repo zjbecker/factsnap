@@ -107,14 +107,14 @@ const ProfileHistoryScreen = ({ navigation }) => {
 
         {(!isLoading && userHasNoPosts) && // if user has no posts
           <View>
-            <View style={noPostsContainer} >
+            <View style={styles.noPostsContainer} >
               <Text style={styles.noPostsText}>You have no posts yet. Take a photo to get started.</Text>
 
             </View>
           </View>
 
         }
-        {!isLoading && (
+        {(!isLoading && !userHasNoPosts)&& (
           <>
             <StatusBar hidden />
             <View style={{
@@ -123,7 +123,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
               alignItems: "center",
               flex: 1,
               marginBottom: "-50%",
-              marginTop: "-10%"
+              marginTop: "-10%",
 
 
             }}>
@@ -309,11 +309,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     backgroundColor: "#BADA55",
-    top: "100%",
+
     paddingTop: 30,
     paddingBottom: 30,
+    marginBottom: "110%",
     borderBottomWidth: 5,
-    borderTopWidth: 5,
+
     borderColor: "white"
 
   },
