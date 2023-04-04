@@ -11,30 +11,14 @@ import {
 } from "react-native";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useState } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
-const imageBackgroundArray = [
-  require("../assets/BGvariant130.png"),
-  require("../assets/BGvariantBigBen.png"),
-  require("../assets/BGvariantBurjKhalifa.png"),
-  require("../assets/BGvariantColosseum.png"),
-  require("../assets/BGvariantGoldenBridge.png"),
-  require("../assets/BgVariantdubaiv2.png"),
-  require("../assets/BGvariantEgyptCity.png"),
-  require("../assets/BGVariantNYC.png"),
-  require("../assets/BGvariantPyramidsv2.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantVenice.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantSyndneyHousev2.png"),
-  require("../assets/BGvariantVenicev2.png"),
-  ]
+import { BackgroundGenerator } from "./BackgroundGenerator";
 
 
 
 const LoggedInScreen = ({ navigation }) => {
-  const randomIndex = Math.floor(Math.random() * imageBackgroundArray.length);
-  const selectedImage = imageBackgroundArray[randomIndex];
+
 
   const handleSignOut = () => {
     const eraseDetails = async () => {
@@ -73,15 +57,12 @@ const LoggedInScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <ImageBackground
-          source={selectedImage}
-          style={styles.cardBackground}
-        >
+        <BackgroundGenerator>
           <Text style={styles.logoText}>FactSnap</Text>
           <View style={styles.optionsContainer}>
             <TouchableOpacity style={styles.option} onPress={handleCameraPress}>
               <Image
-                source={require('../assets/whiteCameraIcon.png')}
+                source={require("../assets/whiteCameraIcon.png")}
                 style={styles.icon}
               />
               <Text style={styles.optionText}>Camera</Text>
@@ -107,10 +88,13 @@ const LoggedInScreen = ({ navigation }) => {
               <Text style={styles.optionText}>Profile History</Text>
             </TouchableOpacity>
           </View>
-        <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
-        <Text style={styles.signOutText}>Sign Out</Text>
-      </TouchableOpacity>
-        </ImageBackground>
+          <TouchableOpacity
+            onPress={handleSignOut}
+            style={styles.signOutButton}
+          >
+            <Text style={styles.signOutText}>Sign Out</Text>
+          </TouchableOpacity>
+        </BackgroundGenerator>
       </View>
 
       {/* <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
@@ -140,7 +124,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignSelf: "center",
-    
+
     overflow: "hidden",
     shadowColor: "#000",
 
@@ -169,10 +153,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     padding: 20,
-
   },
   option: {
-
     justifyContent: "center",
     alignItems: "center",
     width: "80%",
@@ -180,8 +162,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#D1ECF1",
     borderRadius: 15,
-    
-  },
+    padding: 50,
+    },
   icon: {
     width: 80,
     height: 80,
