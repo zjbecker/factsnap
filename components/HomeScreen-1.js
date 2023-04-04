@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     letterSpacing: 15,
     fontFamily: "RobotoBlack",
+    justifyContent: "center",
   },
 });
 
