@@ -8,6 +8,7 @@ import {
   Image,
   ImageBackground,
   FlatList,
+  SafeAreaView,
 } from "react-native";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
@@ -15,11 +16,7 @@ import { useNavigation, useState } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { BackgroundGenerator } from "./BackgroundGenerator";
 
-
-
 const LoggedInScreen = ({ navigation }) => {
-
-
   const handleSignOut = () => {
     const eraseDetails = async () => {
       try {
@@ -55,10 +52,16 @@ const LoggedInScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.card}>
         <BackgroundGenerator>
-          <Text style={styles.logoText}>FactSnap</Text>
+          <Text
+            style={styles.logoText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
+            F A C T S N A P
+          </Text>
           <View style={styles.optionsContainer}>
             <TouchableOpacity style={styles.option} onPress={handleCameraPress}>
               <Image
@@ -101,7 +104,7 @@ const LoggedInScreen = ({ navigation }) => {
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity> */}
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -112,13 +115,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "yellow",
     justifyContent: "center",
+    alignItems: "center",
+    marginTop: StatusBar.currentHeight,
   },
   logoText: {
-    fontSize: 60,
-    fontWeight: "bold",
-    marginTop: 10,
+    fontSize: 50,
+    marginTop: 40,
+    marginBottom: 20,
     textAlign: "center",
-    color: "white",
+    fontFamily: "RobotoBlack",
+    justifyContent: "center",
+    textAlignVertical: "center",
   },
   card: {
     width: "100%",
@@ -163,7 +170,7 @@ const styles = StyleSheet.create({
     borderColor: "#D1ECF1",
     borderRadius: 15,
     padding: 50,
-    },
+  },
   icon: {
     width: 80,
     height: 80,

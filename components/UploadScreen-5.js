@@ -1,11 +1,8 @@
-
-
-
-import { UserContext } from '../Context/UserContext'
-import { uploadImageAndRequestAPI } from '../utils/storageUtils';
-import { uploadAPIResults, getUserPostsData } from '../utils/dbUtils';
-import * as ImagePicker from "expo-image-picker"
-import { BackgroundGenerator } from './BackgroundGenerator';
+import { UserContext } from "../Context/UserContext";
+import { uploadImageAndRequestAPI } from "../utils/storageUtils";
+import { uploadAPIResults, getUserPostsData } from "../utils/dbUtils";
+import * as ImagePicker from "expo-image-picker";
+import { BackgroundGenerator } from "./BackgroundGenerator";
 import React, { useState, useContext, useEffect } from "react";
 import {
   View,
@@ -14,11 +11,11 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  SafeAreaView,
+  StatusBar,
 } from "react-native";
 
 import { useFonts } from "expo-font";
-
-
 
 function UploadScreen({ navigation }) {
   const [loaded] = useFonts({
@@ -97,16 +94,20 @@ function UploadScreen({ navigation }) {
     navigation.replace("Home");
   };
 
-
-
   if (!loaded) {
     return null;
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.card}>
         <BackgroundGenerator>
-          <Text style={styles.logoText}>FACTSNAP</Text>
+          <Text
+            style={styles.logoText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+          >
+            F A C T S N A P
+          </Text>
           <View style={styles.imageContainer}>
             {image ? (
               <Image
@@ -156,9 +157,9 @@ function UploadScreen({ navigation }) {
           <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
             <Text style={styles.homeBtnText}>Home</Text>
           </TouchableOpacity>
-          </BackgroundGenerator>
+        </BackgroundGenerator>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -168,20 +169,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: StatusBar.currentHeight,
   },
   logoText: {
     fontSize: 50,
-    marginTop: 30,
+    marginTop: 40,
     marginBottom: 20,
     textAlign: "center",
-    letterSpacing: 15,
     fontFamily: "RobotoBlack",
+    justifyContent: "center",
+    textAlignVertical: "center",
   },
   card: {
     width: "100%",
     height: "100%",
     alignSelf: "center",
-
 
     overflow: "hidden",
     shadowColor: "#000",
@@ -198,13 +200,13 @@ const styles = StyleSheet.create({
   cardBackground: {
     flex: 1,
     resizeMode: "cover",
-    alignItems: 'center',
+    alignItems: "center",
   },
   imageContainer: {
     width: "90%",
     height: "60%",
-    backgroundColor: "rgba(255, 255, 255, 0.4)", 
-    
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
+
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
