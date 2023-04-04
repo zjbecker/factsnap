@@ -1,6 +1,6 @@
 
-import React, { useState, useContext, useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground } from 'react-native'
+
+
 import { UserContext } from '../Context/UserContext'
 import { uploadImageAndRequestAPI } from '../utils/storageUtils';
 import { uploadAPIResults, getUserPostsData } from '../utils/dbUtils';
@@ -15,28 +15,10 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import { UserContext } from "../Context/UserContext";
-import { uploadImageAndRequestAPI } from "../utils/storageUtils";
-import { uploadAPIResults, getUserPostsData } from "../utils/dbUtils";
-import * as ImagePicker from "expo-image-picker";
+
 import { useFonts } from "expo-font";
 
-const imageBackgroundArray = [
-  require("../assets/BGvariant130.png"),
-  require("../assets/BGvariantBigBen.png"),
-  require("../assets/BGvariantBurjKhalifa.png"),
-  require("../assets/BGvariantColosseum.png"),
-  require("../assets/BGvariantGoldenBridge.png"),
-  require("../assets/BgVariantdubaiv2.png"),
-  require("../assets/BGvariantEgyptCity.png"),
-  require("../assets/BGVariantNYC.png"),
-  require("../assets/BGvariantPyramidsv2.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantVenice.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantSyndneyHousev2.png"),
-  require("../assets/BGvariantVenicev2.png"),
-];
+
 
 function UploadScreen({ navigation }) {
   const [loaded] = useFonts({
@@ -123,7 +105,7 @@ function UploadScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <ImageBackground source={selectedImage} style={styles.cardBackground}>
+        <BackgroundGenerator>
           <Text style={styles.logoText}>FACTSNAP</Text>
           <View style={styles.imageContainer}>
             {image ? (
@@ -174,7 +156,7 @@ function UploadScreen({ navigation }) {
           <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
             <Text style={styles.homeBtnText}>Home</Text>
           </TouchableOpacity>
-        </ImageBackground>
+          </BackgroundGenerator>
       </View>
     </View>
   );
