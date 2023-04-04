@@ -152,7 +152,7 @@ const LoginForm = ({ animatedValue, navigation }) => {
 const styles = StyleSheet.create({
   loginBox: {
     position: "absolute",
-    top: 350,
+    top: 290,
     width: "80%",
   },
   input: {

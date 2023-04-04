@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 8,
     paddingBottom: 0,
+    
   },
   circle: {
     backgroundColor: "#444",
@@ -132,12 +133,13 @@ const styles = StyleSheet.create({
     height: CIRCLE_SIZE,
     borderRadius: CIRCLE_SIZE,
     marginBottom: 100,
+    
   },
   circleButton: {
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
-
+    
   },
   submitText: {
     fontSize: 18,
