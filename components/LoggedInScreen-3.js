@@ -65,18 +65,18 @@ const LoggedInScreen = ({ navigation }) => {
           <View style={styles.optionsContainer}>
             <TouchableOpacity style={styles.option} onPress={handleCameraPress}>
               <Image
-                source={require("../assets/whiteCameraIcon.png")}
-                style={styles.icon}
+                // source={require("../assets/whiteCameraIcon.png")}
+                // style={styles.icon}
               />
-              <Text style={styles.optionText}>Camera</Text>
+              <Text style={[styles.optionText, { textAlign: 'center' }]}>Camera</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.option}
               onPress={handlePhotoLibraryPress}
             >
               <Image
-                source={require("../assets/whitePhotoLibraryImage.png")}
-                style={styles.icon}
+                // source={require("../assets/whitePhotoLibraryImage.png")}
+                // style={styles.icon}
               />
               <Text style={styles.optionText}>Photo Library</Text>
             </TouchableOpacity>
@@ -85,8 +85,8 @@ const LoggedInScreen = ({ navigation }) => {
               onPress={handleProfileHistoryPress}
             >
               <Image
-                source={require("../assets/profileHistory.png")}
-                style={styles.icon}
+                // source={require("../assets/profileHistory.png")}
+                // style={styles.icon}
               />
               <Text style={styles.optionText}>Profile History</Text>
             </TouchableOpacity>
@@ -157,28 +157,38 @@ const styles = StyleSheet.create({
   optionsContainer: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-around",
+    justifyContent: "flex-end",
     alignItems: "center",
-    padding: 20,
+    width: '90%',
+    
   },
   option: {
-    justifyContent: "center",
+    
+    flexDirection: 'column',
     alignItems: "center",
-    width: "80%",
-    height: "25%",
+    justifyContent: 'center',
+
+    width: "90%",
+    height: "10%",
+    
     borderWidth: 3,
     borderColor: "#D1ECF1",
     borderRadius: 15,
-    padding: 50,
+    marginBottom: 20,
+    
   },
   icon: {
-    width: 80,
-    height: 80,
-  },
+    width: 30,
+    height: 30,
+    marginRight: 10,
+    marginLeft: 15,
+    },
   optionText: {
-    fontSize: 16,
+    fontSize: 20,
     marginTop: 10,
+    fontWeight: 'bold',
     color: "white",
+    textAlign: 'center',
   },
   signOutButton: {
     alignSelf: "flex-start",
@@ -186,7 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#BADA55",
     padding: 10,
     marginLeft: 20,
-
+    marginTop: 25,
     borderRadius: 5,
   },
   signOutText: {
