@@ -45,7 +45,6 @@ const FactsViewScreen = ({ navigation, route }) => {
   const [picData, setPicData] = useState(""); // once loaded is a uri of the photo, ready for use in image tag
   const [isLoading, setIsLoading] = useState(true); // may be unnecessary as there is no backend stuff going on on in this component, all data is being passed in from route. needs testing when app is more built
 
-  console.log(postData, "<<<< postdata");
   useEffect(() => {
     // processes post data passed as prop via route into state, sets pic data and post data
     setIsLoading(true);
@@ -54,10 +53,11 @@ const FactsViewScreen = ({ navigation, route }) => {
 
     let filteredResults = [];
     if (responseFromProp.hasOwnProperty("results")) {
-      console.log("beeep");
       filteredResults = responseFromProp.results.filter(
         (entry) => !entry.hasOwnProperty("error")
       ); // removes error posts
+    } else{  // if there were no results, sets a message displaying such as the result.
+      filteredResults = [{"coordinates": {"latitude": 0, "longitude": 0}, "landmark": {"extract": "There were no results for this photo. Is the photo unclear? You should try uploading another!", "img_url": "NO URL", "title": "No Results"}, "resultIndex": 0, "score": 0}]
     }
 
     // these promises are just to ensure that setting state for posts and pictures happens before loading is set to false
