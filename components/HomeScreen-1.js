@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { StyleSheet, View, Animated, Image, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Animated,
+  Image,
+  Text,
+  SafeAreaView,
+} from "react-native";
 import { useFonts } from "expo-font";
 
 import Circle from "../animations/Circle";
@@ -28,7 +35,7 @@ const HomeScreen = ({ navigation }) => {
     return null;
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" hidden />
       <Circle
         onPress={onPress}
@@ -42,16 +49,18 @@ const HomeScreen = ({ navigation }) => {
           adjustsFontSizeToFit={true}
           numberOfLines={1}
         >
-          FACTSNAP
+          F A C T S N A P
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    marginTop: StatusBar.currentHeight,
   },
   logoContainer: {
     justifyContent: "center",
@@ -67,7 +76,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
     textAlign: "center",
-    letterSpacing: 11,
     fontFamily: "RobotoBlack",
     justifyContent: "center",
     textAlignVertical: "center",
