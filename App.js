@@ -3,7 +3,7 @@ import { useState } from "react";
 import HomeScreen from "./components/HomeScreen-1";
 
 import PhotoCapturedScreen from "./components/PhotoCapturedScreen-8";
-import ProfileScreen from "./components/ProfileScreen-6";
+
 import LoggedInScreen from "./components/LoggedInScreen-3";
 import CameraScreen from "./components/CameraScreen-4";
 import UploadScreen from "./components/UploadScreen-5";
@@ -37,7 +37,7 @@ export default function App() {
           />
           <Stack.Screen name="Upload" component={UploadScreen} 
           options={{ headerShown: false }}/>
-          <Stack.Screen name="Profile" component={ProfileScreen} />
+
           <Stack.Screen
             name="Profile-History"
             component={ProfileHistoryScreen}

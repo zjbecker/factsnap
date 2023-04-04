@@ -11,22 +11,7 @@ import {
   ImageBackground,
 } from "react-native";
 
-const imageBackgroundArray = [
-  require("../assets/BGvariant130.png"),
-  require("../assets/BGvariantBigBen.png"),
-  require("../assets/BGvariantBurjKhalifa.png"),
-  require("../assets/BGvariantColosseum.png"),
-  require("../assets/BGvariantGoldenBridge.png"),
-  require("../assets/BgVariantdubaiv2.png"),
-  require("../assets/BGvariantEgyptCity.png"),
-  require("../assets/BGVariantNYC.png"),
-  require("../assets/BGvariantPyramidsv2.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantVenice.png"),
-  require("../assets/BGvariantRomev2.png"),
-  require("../assets/BGvariantSyndneyHousev2.png"),
-  require("../assets/BGvariantVenicev2.png"),
-  ]
+import { BackgroundGenerator }  from "./BackgroundGenerator";
 
 
 // Kyle
@@ -71,16 +56,12 @@ const FactsViewScreen = ({ navigation, route }) => {
     navigation.replace("Home");
   };
 
-  const randomIndex = Math.floor(Math.random() * imageBackgroundArray.length);
-  const selectedImage = imageBackgroundArray[randomIndex];
+
 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <ImageBackground
-          source={selectedImage}
-          style={styles.cardBackground}
-        >
+        <BackgroundGenerator>
           <View style={styles.cardContent}>
             {isLoading && <Text>Loading</Text>}
             {!isLoading && (
@@ -113,7 +94,7 @@ const FactsViewScreen = ({ navigation, route }) => {
           <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
             <Text style={styles.homeBtnText}>Home</Text>
           </TouchableOpacity>
-        </ImageBackground>
+          </ BackgroundGenerator>
       </View>
 
       <StatusBar style="auto" />
