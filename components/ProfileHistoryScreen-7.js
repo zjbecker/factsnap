@@ -26,7 +26,7 @@ const imageBackgroundArray = [
   require("../assets/BGvariantRomev2.png"),
   require("../assets/BGvariantSyndneyHousev2.png"),
   require("../assets/BGvariantVenicev2.png"),
-  ]
+]
 import { UserContext } from "../Context/UserContext";
 import { getUserPostsData } from "../utils/dbUtils";
 
@@ -97,12 +97,12 @@ const ProfileHistoryScreen = ({ navigation }) => {
       >
 
         {isLoading && // if loading
-        <View style={styles.loadingContainer}>
+          <View style={styles.loadingContainer}>
 
-          <Text style={styles.loadingText}>Loading...</Text>
+            <Text style={styles.loadingText}>Loading...</Text>
 
 
-        </View>
+          </View>
         }
 
         {(!isLoading && userHasNoPosts) && // if user has no posts
@@ -117,6 +117,23 @@ const ProfileHistoryScreen = ({ navigation }) => {
         {!isLoading && (
           <>
             <StatusBar hidden />
+            <View style={{
+
+              justifyContent: "center",
+              alignItems: "center",
+              flex: 1,
+              marginBottom: "-50%",
+              marginTop: "-10%"
+
+
+            }}>
+              <Text style={{
+                textAlign: "center",
+                fontSize: 30,
+                fontWeight: "bold",
+                color: "white"
+              }}>Your History</Text>
+            </View>
             <Animated.FlatList
               data={postsData}
               keyExtractor={(item, index) => index.toString()}
@@ -127,6 +144,8 @@ const ProfileHistoryScreen = ({ navigation }) => {
                 [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                 { useNativeDriver: true }
               )}
+
+
               renderItem={({ item, index }) => {
                 const inputRange = [
                   (index - 1) * width,
