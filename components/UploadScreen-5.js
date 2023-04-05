@@ -20,6 +20,7 @@ import { useFonts } from "expo-font";
 function UploadScreen({ navigation }) {
   const [loaded] = useFonts({
     RobotoBlack: require("../assets/fonts/Roboto-Black.ttf"),
+    RobotoMed: require("../assets/fonts/Roboto-Medium.ttf"),
   });
 
   // User context is needed here to set the directory name for firebase
@@ -98,7 +99,7 @@ function UploadScreen({ navigation }) {
     return null;
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.card}>
         <BackgroundGenerator>
           <Text
@@ -115,7 +116,12 @@ function UploadScreen({ navigation }) {
                 style={{ height: "100%", width: "100%" }}
               />
             ) : (
-              <Text style={styles.imagePlaceholder}>
+              <Text
+                style={[
+                  styles.imagePlaceholder,
+                  { fontFamily: "RobotoMed", color: "black" },
+                ]}
+              >
                 Select an image to display here
               </Text>
             )}
@@ -159,7 +165,7 @@ function UploadScreen({ navigation }) {
           </TouchableOpacity>
         </BackgroundGenerator>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -169,7 +175,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    
   },
   logoText: {
     fontSize: 50,
@@ -184,10 +189,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignSelf: "center",
-
     overflow: "hidden",
     shadowColor: "#000",
-    marginBottom: 15,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -206,7 +209,6 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "60%",
     backgroundColor: "rgba(255, 255, 255, 0.4)",
-
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
@@ -225,33 +227,33 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   button: {
-    backgroundColor: "#BADA55",
+    backgroundColor: "#FFFC00",
     width: "100%",
     paddingHorizontal: 24,
     paddingVertical: 12,
-    marginTop: 40,
+    marginTop: 30,
     borderRadius: 5,
-    margin: 5,
+    margin: 2,
+    borderWidth: 2,
   },
   buttonText: {
     fontSize: 16,
-    color: "#FFFFFF",
+    color: "black",
     textAlign: "center",
+    fontFamily: "RobotoMed",
   },
   homeBtn: {
     alignSelf: "flex-start",
-
-    backgroundColor: "#BADA55",
+    backgroundColor: "#FFFC00",
     padding: 10,
     marginLeft: 20,
-
     borderRadius: 5,
+    borderWidth: 2,
   },
-
-homeBtnText: {
-  color: 'white',
-}
+  homeBtnText: {
+    color: "black",
+    fontFamily: "RobotoMed",
+  },
 });
-
 
 export default UploadScreen;

@@ -11,16 +11,20 @@ import {
   ImageBackground,
   Pressable,
 } from "react-native";
-
 import { UserContext } from "../Context/UserContext";
 import { getUserPostsData } from "../utils/dbUtils";
 import { BackgroundGenerator } from "./BackgroundGenerator";
+import { useFonts } from "expo-font";
 
 const { width } = Dimensions.get("window");
 const ITEM_WIDTH = width * 0.7;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.47;
 
 const ProfileHistoryScreen = ({ navigation }) => {
+  const [loaded] = useFonts({
+    RobotoBlack: require("../assets/fonts/Roboto-Black.ttf"),
+    RobotoMed: require("../assets/fonts/Roboto-Medium.ttf"),
+  });
   const { userDetails } = useContext(UserContext);
 
   const [postsData, setPostsData] = useState([]);
@@ -71,6 +75,9 @@ const ProfileHistoryScreen = ({ navigation }) => {
 
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
+  if (!loaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <BackgroundGenerator>
@@ -91,6 +98,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
                     fontSize: 40,
                     color: "black",
                     marginTop: 20,
+                    fontFamily: "RobotoMed",
                   }}
                 >
                   You have no posts yet. Take a photo to get started.
@@ -115,7 +123,8 @@ const ProfileHistoryScreen = ({ navigation }) => {
                   textAlign: "center",
                   fontSize: 30,
                   fontWeight: "bold",
-                  color: "white",
+                  color: "black",
+                  fontFamily: "RobotoMed",
                 }}
               >
                 Your History
@@ -213,8 +222,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
                         alignItems: "center",
                       }}
                     >
-                      <Text>View</Text>
-                      
+                      <Text style={styles.viewBtnText}>View</Text>
                     </Pressable>
                     <Pressable
                       onPress={() => {
@@ -226,11 +234,10 @@ const ProfileHistoryScreen = ({ navigation }) => {
                         height: 20,
                         borderColor: "white",
                         borderWidth: 2,
- 
-                        
+
                         position: "absolute",
-                        bottom: '82%',
-                        left: '15%',
+                        bottom: "82%",
+                        left: "15%",
                         shadowColor: "#000",
                         shadowOpacity: 0.2,
                         shadowRadius: 20,
@@ -238,8 +245,9 @@ const ProfileHistoryScreen = ({ navigation }) => {
                         alignItems: "center",
                       }}
                     >
-                      <Text style={[{ color: 'black', fontWeight: 'bold', }]}>X</Text>
-                      
+                      <Text style={[{ color: "black", fontWeight: "bold" }]}>
+                        X
+                      </Text>
                     </Pressable>
                   </View>
                 );
@@ -295,12 +303,13 @@ const styles = StyleSheet.create({
   },
   homeBtn: {
     alignSelf: "flex-start",
-
-    backgroundColor: "#BADA55",
+    backgroundColor: "#FFFC00",
     padding: 10,
     marginLeft: 20,
     marginBottom: 20,
     borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 2,
   },
   background: {
     width: "100%",
@@ -314,36 +323,39 @@ const styles = StyleSheet.create({
   loadingText: {
     width: "100%",
     fontSize: 40,
-    color: "white",
+    color: "black",
     flexWrap: "wrap",
+    fontFamily: "RobotoMed",
   },
   noPostsContainer: {
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
-    backgroundColor: "#BADA55",
+    backgroundColor: "#FFFC00",
     height: "100%",
     width: "100%",
-
     paddingBottom: 30,
-
     borderBottomWidth: 5,
-
     borderColor: "white",
   },
   noPostsText: {
     width: "80%",
     fontSize: 30,
-    color: "white",
+    color: "black",
     flexWrap: "wrap",
+    fontFamily: "RobotoMed",
   },
   noPostTextContainer: {
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
   },
-
   homeBtnText: {
-    color: "white",
+    color: "black",
+    fontFamily: "RobotoMed",
+  },
+  viewBtnText: {
+    color: "black",
+    fontFamily: "RobotoMed",
   },
 });

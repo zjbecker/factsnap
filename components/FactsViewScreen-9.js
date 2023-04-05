@@ -10,9 +10,8 @@ import {
   ScrollView,
   ImageBackground,
 } from "react-native";
-
-import { BackgroundGenerator }  from "./BackgroundGenerator";
-
+import { BackgroundGenerator } from "./BackgroundGenerator";
+import { useFonts } from "expo-font";
 
 // Kyle
 // Fonts not very readable, need some tweeking with colors and fonts, potentially a opacity on them. Might make it more readable with different background
@@ -20,6 +19,10 @@ import { BackgroundGenerator }  from "./BackgroundGenerator";
 import { useState, useEffect } from "react";
 
 const FactsViewScreen = ({ navigation, route }) => {
+  const [loaded] = useFonts({
+    RobotoBlack: require("../assets/fonts/Roboto-Black.ttf"),
+    RobotoMed: require("../assets/fonts/Roboto-Medium.ttf"),
+  });
 
   console.log(route.params.paramKey);
 
@@ -34,12 +37,28 @@ const FactsViewScreen = ({ navigation, route }) => {
     const responseFromProp = route.params.paramKey; // route.params.paramkey is received as a prop, contains the post object being viewed
 
     let filteredResults = [];
-    if (responseFromProp.hasOwnProperty("results") && responseFromProp.results.length > 0) {
+    if (
+      responseFromProp.hasOwnProperty("results") &&
+      responseFromProp.results.length > 0
+    ) {
       filteredResults = responseFromProp.results.filter(
         (entry) => !entry.hasOwnProperty("error")
       ); // removes error posts
-    } else{  // if there were no results, sets a message displaying such as the result.
-      filteredResults = [{"coordinates": {"latitude": 0, "longitude": 0}, "landmark": {"extract": "There were no results for this photo. Is the photo unclear? You should try uploading another!", "img_url": "NO URL", "title": "No Results"}, "resultIndex": 0, "score": 0}]
+    } else {
+      // if there were no results, sets a message displaying such as the result.
+      filteredResults = [
+        {
+          coordinates: { latitude: 0, longitude: 0 },
+          landmark: {
+            extract:
+              "There were no results for this photo. Is the photo unclear? You should try uploading another!",
+            img_url: "NO URL",
+            title: "No Results",
+          },
+          resultIndex: 0,
+          score: 0,
+        },
+      ];
     }
 
     // these promises are just to ensure that setting state for posts and pictures happens before loading is set to false
@@ -56,8 +75,9 @@ const FactsViewScreen = ({ navigation, route }) => {
     navigation.replace("Home");
   };
 
-
-
+  if (!loaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -82,7 +102,7 @@ const FactsViewScreen = ({ navigation, route }) => {
                   renderItem={({ item, index }) => (
                     <View>
                       <View style={styles.bodyWrapper}>
-                      <Text style={styles.title}>{item.landmark.title}</Text>
+                        <Text style={styles.title}>{item.landmark.title}</Text>
                         <Text style={styles.body}>{item.landmark.extract}</Text>
                       </View>
                     </View>
@@ -94,7 +114,7 @@ const FactsViewScreen = ({ navigation, route }) => {
           <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
             <Text style={styles.homeBtnText}>Home</Text>
           </TouchableOpacity>
-          </ BackgroundGenerator>
+        </BackgroundGenerator>
       </View>
 
       <StatusBar style="auto" />
@@ -107,7 +127,6 @@ export default FactsViewScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     alignItems: "center",
     justifyContent: "center",
   },
@@ -115,10 +134,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignSelf: "center",
-
     overflow: "hidden",
     shadowColor: "#000",
-
     shadowOffset: {
       width: 0,
       height: 2,
@@ -136,8 +153,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 10,
     marginBottom: 10,
-    fontWeight: "bold",
     color: "black",
+    fontFamily: "RobotoBlack",
   },
   bodyWrapper: {
     backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -148,17 +165,17 @@ const styles = StyleSheet.create({
   body: {
     color: "black",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "RobotoMed",
   },
-
   homeBtn: {
     alignSelf: "flex-start",
     marginBottom: 20,
-    backgroundColor: "#BADA55",
+    backgroundColor: "#FFFC00",
     padding: 10,
     marginLeft: 20,
-
     borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 2,
   },
   imageWrapper: {
     width: "100%",
@@ -173,6 +190,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   homeBtnText: {
-    color: 'white',
-  }
+    color: "black",
+    fontFamily: "RobotoMed",
+  },
 });
