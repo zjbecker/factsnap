@@ -102,13 +102,16 @@ function UploadScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.card}>
         <BackgroundGenerator>
-          <Text
-            style={styles.logoText}
-            adjustsFontSizeToFit={true}
-            numberOfLines={1}
-          >
-            F A C T S N A P
-          </Text>
+          <SafeAreaView>
+            <Text
+              style={styles.logoText}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+            >
+              F A C T S N A P
+            </Text>
+          </SafeAreaView>
+
           <View style={styles.imageContainer}>
             {image ? (
               <Image

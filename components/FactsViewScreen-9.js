@@ -29,7 +29,7 @@ const FactsViewScreen = ({ navigation, route }) => {
   const [postData, setPostData] = useState([]); // once loaded is an array with api result objects (possible landmarks)
   const [picData, setPicData] = useState(""); // once loaded is a uri of the photo, ready for use in image tag
   const [isLoading, setIsLoading] = useState(true); // may be unnecessary as there is no backend stuff going on on in this component, all data is being passed in from route. needs testing when app is more built
-
+  console.log(postData, "post data in the facts view screen");
   useEffect(() => {
     // processes post data passed as prop via route into state, sets pic data and post data
     setIsLoading(true);
