@@ -14,21 +14,16 @@ import {
 } from "../firebase";
 import { UserContext } from "../Context/UserContext";
 import * as SecureStore from "expo-secure-store";
-
-
-
+import { useFonts } from "expo-font";
 
 const LoginForm = ({ animatedValue, navigation }) => {
+  const [loaded] = useFonts({
+    RobotoMed: require("../assets/fonts/Roboto-Medium.ttf"),
+  });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
   const { setUserDetails } = useContext(UserContext);
-
-
-
-
-
 
   useEffect(() => {
     // checks if user details are in storage and signs in if so. Also deals with navigation on sign in
@@ -91,7 +86,6 @@ const LoginForm = ({ animatedValue, navigation }) => {
         console.log("Registered with ", user.email);
         setUserDetails(user);
         saveDetails();
-       
       })
       .catch((error) => {
         alert(error.message);
@@ -116,7 +110,9 @@ const LoginForm = ({ animatedValue, navigation }) => {
     inputRange: [0, 0.5, 1],
     outputRange: [0, 1, 1],
   });
-
+  if (!loaded) {
+    return null;
+  }
   return (
     <Animated.View style={[styles.loginBox, { opacity: loginBoxOpacity }]}>
       <TextInput
@@ -134,15 +130,17 @@ const LoginForm = ({ animatedValue, navigation }) => {
       />
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.signupButton}>
-          <Text style={[styles.signUpText, { color: "white" }]}
-          onPress={handleSignup} // think this and login back to front
-          >Sign up</Text>
+          <Text
+            style={[styles.signUpText, { color: "white" }]}
+            onPress={handleSignup} // think this and login back to front
+          >
+            Sign up
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.loginButton}>
-          <Text style={styles.loginText}
-          
-          onPress={handleLogin}
-          >Login</Text>
+          <Text style={styles.loginText} onPress={handleLogin}>
+            Login
+          </Text>
         </TouchableOpacity>
       </View>
     </Animated.View>
@@ -162,6 +160,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingHorizontal: 12,
     paddingVertical: 6,
+    fontFamily: "RobotoMed",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -184,11 +183,13 @@ const styles = StyleSheet.create({
   signUpText: {
     fontSize: 16,
     color: "white",
+    fontFamily: "RobotoMed",
   },
   loginText: {
     fontSize: 16,
-    color: 'white'
-  }
+    color: "white",
+    fontFamily: "RobotoMed",
+  },
 });
 
 export default LoginForm;

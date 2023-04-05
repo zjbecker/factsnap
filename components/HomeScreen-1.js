@@ -9,7 +9,6 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useFonts } from "expo-font";
-
 import Circle from "../animations/Circle";
 
 const CIRCLE_SIZE = 100;
@@ -61,7 +60,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-
   },
   logoContainer: {
     justifyContent: "center",
@@ -71,7 +69,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-
   logoText: {
     fontSize: 50,
     marginTop: 40,

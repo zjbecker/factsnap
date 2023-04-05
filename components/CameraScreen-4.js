@@ -3,10 +3,6 @@ import { StatusBar } from "expo-status-bar";
 import { uploadImageAndRequestAPI } from "../utils/storageUtils";
 import { UserContext } from "../Context/UserContext";
 import { getUserPostsData, uploadAPIResults } from "../utils/dbUtils";
-
-
-
-// import { styles } from "./Styles";
 import { Camera } from "expo-camera";
 import {
   StyleSheet,
@@ -19,6 +15,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { BackgroundGenerator } from "./BackgroundGenerator";
+import { useFonts } from "expo-font";
 
 // TO DO -
 
@@ -26,6 +23,9 @@ import { BackgroundGenerator } from "./BackgroundGenerator";
 // ***** SCREEN SIZE CHANGE ON CAMERA ----> IMAGE *****
 
 const CameraScreen = ({ navigation }) => {
+  const [loaded] = useFonts({
+    RobotoMed: require("../assets/fonts/Roboto-Medium.ttf"),
+  });
   const { userDetails } = useContext(UserContext); // needed here to set filepaths for firebase
 
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -38,12 +38,6 @@ const CameraScreen = ({ navigation }) => {
   // the user when the backend has responded with facts.
   const [submitted, setSubmitted] = useState(false);
   const [uploaded, setUploaded] = useState(false);
-
-
-  
-
-
-
 
   // Asks for camera permissions on page load
 
@@ -130,8 +124,10 @@ const CameraScreen = ({ navigation }) => {
 
   const goHome = () => {
     navigation.replace("Home");
+  };
+  if (!loaded) {
+    return null;
   }
-
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -202,11 +198,10 @@ const CameraScreen = ({ navigation }) => {
             </View>
           )}
           <TouchableOpacity style={styles.homeBtn} onPress={goHome}>
-        <Text style={styles.homeBtnText}>Home</Text>
-      </TouchableOpacity>
-      </BackgroundGenerator>
+            <Text style={styles.homeBtnText}>Home</Text>
+          </TouchableOpacity>
+        </BackgroundGenerator>
       </View>
-      
     </View>
   );
 };
@@ -231,7 +226,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 50,
   },
-
   bottomActionsContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -239,7 +233,7 @@ const styles = StyleSheet.create({
   },
   cameraButton: {
     alignItems: "center",
-    backgroundColor: "transparent",
+    backgroundColor: "black",
     borderRadius: 50,
     height: 80,
     justifyContent: "center",
@@ -251,23 +245,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#FFF",
     borderRadius: 50,
-    borderWidth: 2,
-    height: 70,
+    borderWidth: 6,
+    height: 75,
     justifyContent: "center",
-    width: 70,
+    width: 75,
   },
   innerCircle: {
-    backgroundColor: "transparent",
+    backgroundColor: "#FFFC00",
     borderRadius: 50,
-    height: 50,
-    width: 50,
+    height: 60,
+    width: 60,
+    borderColor: "black",
+    borderWidth: 2,
   },
   photoButtonContainer: {
     display: "flex",
     width: Dimensions.get("window").width * 0.8,
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 10,
+    marginTop: 50,
     marginBottom: 10,
   },
   photoButton: {
@@ -278,8 +274,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 12,
     marginTop: 20,
-    },
-
+  },
   photoButtonText: {
     textAlign: "center",
     color: "white",
@@ -288,10 +283,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignSelf: "center",
-
     overflow: "hidden",
     shadowColor: "#000",
-
     shadowOffset: {
       width: 0,
       height: 2,
@@ -313,14 +306,17 @@ const styles = StyleSheet.create({
   },
   homeBtn: {
     alignSelf: "flex-start",
-    
-    backgroundColor: "#BADA55",
+    backgroundColor: "#FFFC00",
     padding: 10,
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 15,
     borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 2,
   },
   homeBtnText: {
-    color: 'white',
-  }
+    fontSize: 12,
+    color: "black",
+    fontFamily: "RobotoMed",
+  },
 });

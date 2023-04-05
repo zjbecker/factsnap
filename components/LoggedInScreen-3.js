@@ -15,8 +15,13 @@ import { signOut } from "firebase/auth";
 import { useNavigation, useState } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { BackgroundGenerator } from "./BackgroundGenerator";
+import { useFonts } from "expo-font";
 
 const LoggedInScreen = ({ navigation }) => {
+  const [loaded] = useFonts({
+    RobotoBlack: require("../assets/fonts/Roboto-Black.ttf"),
+    RobotoMed: require("../assets/fonts/Roboto-Medium.ttf"),
+  });
   const handleSignOut = () => {
     const eraseDetails = async () => {
       try {
@@ -50,33 +55,40 @@ const LoggedInScreen = ({ navigation }) => {
     console.log("pressed");
     navigation.replace("Profile-History");
   };
-
+  if (!loaded) {
+    return null;
+  }
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.card}>
         <BackgroundGenerator>
-          <Text
-            style={styles.logoText}
-            adjustsFontSizeToFit={true}
-            numberOfLines={1}
-          >
-            F A C T S N A P
-          </Text>
+          <SafeAreaView>
+            <Text
+              style={styles.logoText}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+            >
+              F A C T S N A P
+            </Text>
+          </SafeAreaView>
+
           <View style={styles.optionsContainer}>
             <TouchableOpacity style={styles.option} onPress={handleCameraPress}>
               <Image
-                // source={require("../assets/whiteCameraIcon.png")}
-                // style={styles.icon}
+              // source={require("../assets/whiteCameraIcon.png")}
+              // style={styles.icon}
               />
-              <Text style={[styles.optionText, { textAlign: 'center' }]}>Camera</Text>
+              <Text style={[styles.optionText, { textAlign: "center" }]}>
+                Camera
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.option}
               onPress={handlePhotoLibraryPress}
             >
               <Image
-                // source={require("../assets/whitePhotoLibraryImage.png")}
-                // style={styles.icon}
+              // source={require("../assets/whitePhotoLibraryImage.png")}
+              // style={styles.icon}
               />
               <Text style={styles.optionText}>Photo Library</Text>
             </TouchableOpacity>
@@ -85,8 +97,8 @@ const LoggedInScreen = ({ navigation }) => {
               onPress={handleProfileHistoryPress}
             >
               <Image
-                // source={require("../assets/profileHistory.png")}
-                // style={styles.icon}
+              // source={require("../assets/profileHistory.png")}
+              // style={styles.icon}
               />
               <Text style={styles.optionText}>Profile History</Text>
             </TouchableOpacity>
@@ -95,7 +107,9 @@ const LoggedInScreen = ({ navigation }) => {
             onPress={handleSignOut}
             style={styles.signOutButton}
           >
-            <Text style={styles.signOutText}>Sign Out</Text>
+            <SafeAreaView>
+              <Text style={styles.signOutText}>Sign Out</Text>
+            </SafeAreaView>
           </TouchableOpacity>
         </BackgroundGenerator>
       </View>
@@ -104,7 +118,7 @@ const LoggedInScreen = ({ navigation }) => {
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity> */}
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -116,7 +130,6 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     justifyContent: "center",
     alignItems: "center",
-
   },
   logoText: {
     fontSize: 50,
@@ -131,10 +144,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignSelf: "center",
-
     overflow: "hidden",
     shadowColor: "#000",
-
     shadowOffset: {
       width: 0,
       height: 2,
@@ -153,55 +164,55 @@ const styles = StyleSheet.create({
   backArrow: {
     fontSize: 60,
     fontWeight: "bold",
+    fontFamily: "RobotoMed",
   },
   optionsContainer: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-end",
     alignItems: "center",
-    width: '90%',
-    
+    width: "85%",
+    paddingBottom: 40,
   },
   option: {
-    
-    flexDirection: 'column',
+    flexDirection: "column",
     alignItems: "center",
-    justifyContent: 'center',
-
+    justifyContent: "center",
     width: "90%",
     height: "10%",
-    
     borderWidth: 3,
-    borderColor: "#D1ECF1",
+    borderColor: "black",
     borderRadius: 15,
     marginBottom: 20,
-    
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
   },
   icon: {
     width: 30,
     height: 30,
     marginRight: 10,
     marginLeft: 15,
-    },
+  },
   optionText: {
     fontSize: 20,
-
-    fontWeight: 'bold',
-    color: "white",
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "black",
+    textAlign: "center",
+    fontFamily: "RobotoMed",
   },
   signOutButton: {
     alignSelf: "flex-start",
     marginBottom: 15,
-    backgroundColor: "#BADA55",
+    backgroundColor: "#FFFC00",
     padding: 10,
     marginLeft: 20,
-    marginTop: 25,
+    marginTop: 35,
     borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 2,
   },
   signOutText: {
     fontSize: 12,
-    fontWeight: "bold",
-    color: "white",
+    fontFamily: "RobotoMed",
+    color: "black",
   },
 });
