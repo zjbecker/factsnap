@@ -74,10 +74,6 @@ const LoggedInScreen = ({ navigation }) => {
 
           <View style={styles.optionsContainer}>
             <TouchableOpacity style={styles.option} onPress={handleCameraPress}>
-              <Image
-              // source={require("../assets/whiteCameraIcon.png")}
-              // style={styles.icon}
-              />
               <Text style={[styles.optionText, { textAlign: "center" }]}>
                 Camera
               </Text>
@@ -86,20 +82,12 @@ const LoggedInScreen = ({ navigation }) => {
               style={styles.option}
               onPress={handlePhotoLibraryPress}
             >
-              <Image
-              // source={require("../assets/whitePhotoLibraryImage.png")}
-              // style={styles.icon}
-              />
               <Text style={styles.optionText}>Photo Library</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.option}
               onPress={handleProfileHistoryPress}
             >
-              <Image
-              // source={require("../assets/profileHistory.png")}
-              // style={styles.icon}
-              />
               <Text style={styles.optionText}>Profile History</Text>
             </TouchableOpacity>
           </View>
@@ -107,16 +95,10 @@ const LoggedInScreen = ({ navigation }) => {
             onPress={handleSignOut}
             style={styles.signOutButton}
           >
-            <SafeAreaView>
-              <Text style={styles.signOutText}>Sign Out</Text>
-            </SafeAreaView>
+            <Text style={styles.signOutText}>Sign Out</Text>
           </TouchableOpacity>
         </BackgroundGenerator>
       </View>
-
-      {/* <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
-        <Text style={styles.signOutText}>Sign Out</Text>
-      </TouchableOpacity> */}
       <StatusBar style="auto" />
     </View>
   );
@@ -169,10 +151,10 @@ const styles = StyleSheet.create({
   optionsContainer: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     width: "85%",
-    paddingBottom: 40,
+    paddingTop: 100,
   },
   option: {
     flexDirection: "column",
@@ -180,7 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "90%",
     height: "10%",
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: "black",
     borderRadius: 15,
     marginBottom: 20,
@@ -194,18 +176,17 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 20,
-    fontWeight: "bold",
     color: "black",
     textAlign: "center",
     fontFamily: "RobotoMed",
   },
   signOutButton: {
     alignSelf: "flex-start",
-    marginBottom: 15,
+    marginBottom: 50,
     backgroundColor: "#FFFC00",
-    padding: 10,
+    padding: 11,
     marginLeft: 20,
-    marginTop: 35,
+    marginTop: 20,
     borderRadius: 5,
     borderColor: "black",
     borderWidth: 2,

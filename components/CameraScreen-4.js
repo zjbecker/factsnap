@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 80,
     marginBottom: 10,
-    marginTop: 75,
+    marginTop: 40,
   },
   outerCircle: {
     alignItems: "center",
@@ -309,7 +309,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFC00",
     padding: 10,
     marginLeft: 20,
-    marginBottom: 15,
+    marginBottom: 25,
+    marginTop: 20,
     borderRadius: 5,
     borderColor: "black",
     borderWidth: 2,
