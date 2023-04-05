@@ -48,7 +48,7 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
 
   const circleBg = animatedValue.interpolate({
     inputRange: [0, 0.001, 0.5, 0.501, 1],
-    // outputRange: ["white", "white", "white", "#27AE60", "#27AE60"],
+
     outputRange: ["white", "white", "white", "gold", "gold"],
   });
 
@@ -65,7 +65,7 @@ const Circle = ({ onPress, animatedValue, navigation }) => {
       {
         rotateY: animatedValue.interpolate({
           inputRange: [0, 0.5, 1],
-          outputRange: ["0deg", "-90deg", "-360deg"],
+          outputRange: ["0deg", "-90deg", "-180deg"],
         }),
       },
       {
