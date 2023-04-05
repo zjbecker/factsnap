@@ -267,9 +267,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   photoButton: {
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: "white",
+    backgroundColor: "#FFFC00",
+    borderWidth: 2,
+    borderColor: "black",
     borderRadius: 4,
     paddingHorizontal: 24,
     paddingVertical: 12,
@@ -277,7 +277,8 @@ const styles = StyleSheet.create({
   },
   photoButtonText: {
     textAlign: "center",
-    color: "white",
+    color: "black",
+    fontFamily: "RobotoMed",
   },
   card: {
     width: "100%",

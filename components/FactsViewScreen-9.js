@@ -74,7 +74,7 @@ const FactsViewScreen = ({ navigation, route }) => {
   const goHome = () => {
     navigation.replace("Home");
   };
-  console.log(postData, "post data in the facts view screen");
+
   if (!loaded) {
     return null;
   }

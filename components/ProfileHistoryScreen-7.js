@@ -10,6 +10,7 @@ import {
   Animated,
   ImageBackground,
   Pressable,
+  SafeAreaView,
 } from "react-native";
 import { UserContext } from "../Context/UserContext";
 import { getUserPostsData } from "../utils/dbUtils";
@@ -90,7 +91,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
         {!isLoading &&
           userHasNoPosts && ( // if user has no posts
             <View style={{ flex: 1 }}>
-              <View style={styles.noPostTextContainer}>
+              <SafeAreaView style={styles.noPostTextContainer}>
                 <Text
                   style={{
                     textAlign: "center",
@@ -103,7 +104,7 @@ const ProfileHistoryScreen = ({ navigation }) => {
                 >
                   You have no posts yet. Take a photo to get started.
                 </Text>
-              </View>
+              </SafeAreaView>
             </View>
           )}
         {!isLoading && !userHasNoPosts && (
@@ -306,7 +307,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFC00",
     padding: 10,
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 30,
     borderRadius: 5,
     borderColor: "black",
     borderWidth: 2,
